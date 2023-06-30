@@ -2,14 +2,18 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
-// import {ThemeProvider} from '@mui/material'
+import Login from './components/Login';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    {/* <ThemeProvider theme={theme}> */}
-    <App />
-    {/* </ThemeProvider> */}
+    <Router>
+      <Routes>
+        <Route path='/login' element={<Login />} />
+        <Route path='/' element={<App />} />
+      </Routes>
+    </Router>
   </React.StrictMode>
 );
 
