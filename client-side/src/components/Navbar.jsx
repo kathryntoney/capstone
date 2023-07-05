@@ -1,13 +1,17 @@
+import '../index.css';
 import React, { useState } from 'react'
-import { AppBar, styled, Toolbar, Typography, Box, InputBase, Avatar, Badge, Menu, MenuItem } from '@mui/material'
+import { AppBar, Toolbar, Typography, Box, InputBase, Avatar, Badge, Menu, MenuItem } from '@mui/material'
+import { styled } from '@mui/material/styles'
 import WineBar from '@mui/icons-material/WineBar';
-import { borderRadius } from '@mui/system'
+// import { borderRadius } from '@mui/system'
 import Favorite from '@mui/icons-material/Favorite';
 
 const StyledToolbar = styled(Toolbar)({
   display: "flex",
   justifyContent: "space-between",
-  backgroundColor: '#985277'
+  backgroundColor: '#5C374C',
+  fontFamily: "'Nunito', sans - serif",
+  fontFamily: "'Roboto Mono', monospace"
 })
 
 const Search = styled("div")(({ theme }) => ({
@@ -40,9 +44,8 @@ const Navbar = () => {
   return (
     <AppBar position="sticky">
       <StyledToolbar>
-        <Typography variant='h6' sx={{ display: { xs: "none", sm: "block" } }}>Pocket Somm</Typography>
-        <WineBar sx={{ display: { xs: "block", sm: "none" } }} />
-        <Search><InputBase placeholder='search' /></Search>
+        <Typography className='navbar-title' variant='span' sx={{ fontFamily: "'Nunito', sans - serif", fontSize: '25px', fontWeight: 'bold', color: '#FAA275', justifyContent: 'center', alignItems: 'center' }}><WineBar />Pocket Somm</Typography>
+        <Search sx={{ display: { xs: "none", sm: "block" } }}><InputBase placeholder='search' /></Search>
         <Icons>
           <Badge>
             <Favorite />
