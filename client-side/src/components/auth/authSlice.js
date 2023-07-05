@@ -102,25 +102,25 @@ let authSlice = createSlice({
             state.isLoading = false; 
             state.error = "Couldn't fetch data"
         },
-        [checkToken.pending] : (state, action)=>{
+        // [checkToken.pending] : (state, action)=>{
 
-            state.isLoading = true;
+        //     state.isLoading = true;
 
-        },
-        [checkToken.fulfilled] : (state, {payload})=>{  //action.payload
+        // },
+        // [checkToken.fulfilled] : (state, {payload})=>{  //action.payload
 
-            state.isLoading = false
-            if(payload.isValid){
-                state.token = localStorage.token
+        //     state.isLoading = false
+        //     if(payload.isValid){
+        //         state.token = localStorage.token
             
-            }
+        //     }
             
-        },
-        [checkToken.rejected] : (state, action)=>{
+        // },
+        // [checkToken.rejected] : (state, action)=>{
 
-            state.isLoading = false; 
-            state.error = "Couldn't fetch data"
-        },
+        //     state.isLoading = false; 
+        //     state.error = "Couldn't fetch data"
+        // },
     }
 })
 
