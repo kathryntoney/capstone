@@ -11,32 +11,34 @@ const Leftbar = () => {
             flex={1}
             p={2}
             sx={{ display: { xs: "none", sm: "block" } }}>
-            <List>
-                <ListItem disablePadding>
-                    <ListItemButton component="a" href="#">
-                        <HomeIcon />
-                        <ListItemText primary="Homepage" />
-                    </ListItemButton>
-                </ListItem>
-                <ListItem disablePadding>
-                    <ListItemButton component="a" href="#">
-                        <SettingsIcon />
-                        <ListItemText primary="Settings" />
-                    </ListItemButton>
-                </ListItem>
-                <ListItem disablePadding>
-                    <ListItemButton component="a" href="#">
-                        <AccountBoxIcon />
-                        <ListItemText primary="Profile" />
-                    </ListItemButton>
-                </ListItem>
-                <ListItem disablePadding>
-                    <ListItemButton component="a" href="#">
-                        <ModeNightIcon />
-                        <Switch />
-                    </ListItemButton>
-                </ListItem>
-            </List>
+            <Box position="fixed">
+                <List>
+                    <ListItem disablePadding>
+                        <ListItemButton component="a" href="#">
+                            <HomeIcon />
+                            <ListItemText primary="Homepage" />
+                        </ListItemButton>
+                    </ListItem>
+                    <ListItem disablePadding>
+                        <ListItemButton component="a" href="#">
+                            <SettingsIcon />
+                            <ListItemText primary="Settings" />
+                        </ListItemButton>
+                    </ListItem>
+                    <ListItem disablePadding>
+                        <ListItemButton component="a" href="#">
+                            <AccountBoxIcon />
+                            <ListItemText primary="Profile" />
+                        </ListItemButton>
+                    </ListItem>
+                    <ListItem disablePadding>
+                        <ListItemButton component="a" href="#">
+                            <ModeNightIcon />
+                            <Switch />
+                        </ListItemButton>
+                    </ListItem>
+                </List>
+            </Box>
         </Box >
     )
 }
