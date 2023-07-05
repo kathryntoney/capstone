@@ -12,12 +12,11 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       // define association here
 
-      models.favorites.belongsTo(models.users, {foreignKey: 'id'})
-     
+      models.users.hasMany(models.favorites, {foreignKey:"userID"})
     }
   }
   favorites.init({
-    userID: DataTypes.STRING,
+    userID: DataTypes.INTEGER,
     picture: DataTypes.STRING,
     notes: DataTypes.STRING
   }, {
