@@ -4,7 +4,7 @@ const JwtStrategy = require('passport-jwt').Strategy
 
 const ExtractJwt = require('passport-jwt').ExtractJwt
 
-//! const db = require('../models)
+const db = require('../models')
 
 const bcrypt= require('bcryptjs')
 
