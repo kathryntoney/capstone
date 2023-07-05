@@ -20,7 +20,7 @@ export const signUp = createAsyncThunk(SIGN_UP, async (params, thunkAPI)=>{
 
 
 
-    let response = await axios.post('/registration', params.formData)
+    let response = await axios.post('/login', params.formData)
 
    
     let jwt = response.data.token
