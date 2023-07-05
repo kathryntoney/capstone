@@ -45,7 +45,9 @@ const OpenAI = ({dish}, {ocr}) => {
   return(
     <>
 
-
+<div>
+  {apiResponse}
+</div>
     </>
   );
 };
