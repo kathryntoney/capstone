@@ -1,10 +1,10 @@
 import React from 'react'
-
+import Photo from './Photo'
 const Pairing = () => {
   return (
-    <div>
-      
-    </div>
+    <>
+      <Photo/>
+    </>
   )
 }
 

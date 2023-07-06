@@ -9,7 +9,7 @@ import { Provider } from 'react-redux'
 import authSlice from './components/auth/authSlice';
 import BaseLayout from './components/layout/BaseLayout';
 import Pairing from './components/Pairing';
-import Camera from './components/Camera'
+import Photo from './components/Photo'
 
 let store = configureStore({
   reducer: authSlice
@@ -25,7 +25,7 @@ ReactDOM.render(
             <Route path='/login' element={<Login />} />
             <Route path='/' element={<App />} />
             <Route path='/pairing' element={<Pairing />} />
-            <Route path='/camera' element={<Camera />} />
+            <Route path='/photo' element={<Photo />} />
           </Routes>
         </BaseLayout>
       </Router>
