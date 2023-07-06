@@ -5,7 +5,7 @@ import axios from 'axios'
 const initialState ={
     token: "",
     error: "",
-    isLoading: "false"
+    isLoading: false
 }
 
 const SIGN_UP = "SIGN_UP" //action types
@@ -18,9 +18,8 @@ const CHECK_TOKEN = "CHECK_TOKEN" //action types
 
 export const signUp = createAsyncThunk(SIGN_UP, async (params, thunkAPI)=>{
 
-
-
-    let response = await axios.post('/login', params.formData)
+console.log("in authSlice export", params.formData)
+    let response = await axios.post('/registration', params.formData)
 
    
     let jwt = response.data.token
@@ -30,7 +29,6 @@ export const signUp = createAsyncThunk(SIGN_UP, async (params, thunkAPI)=>{
     return jwt
 
 })
-
 export const signIn =createAsyncThunk(SIGN_IN, async (params, thunkAPI)=>{
 
     let response = await axios.post('/login', params.formData)

@@ -22,9 +22,9 @@ const Registration = (e) => {
     const [password, setPassword] = useState('')
     const [profilePic, setProfilePic] = useState('')
     const [imageSelected, setImageSelected] = useState('')
-    const isLoading = useSelector(state => state.isLoading)
-    const token = useSelector(state => state.token)
-    
+    const isLoading = useSelector(state=> state.isLoading)
+    const token = useSelector(state=> state.token)
+
     const dispatch = useDispatch()
     const navigate = useNavigate()
 
@@ -43,17 +43,13 @@ const Registration = (e) => {
         setProfilePic(profilePicUrl)
 
         // end cloudinary
-        let data = {
+        let data ={
             formData: {
-                name,
-                email,
-                password,
-                profilePic: profilePicUrl
+             name, email,password, profilePic:profilePicUrl
             }
-        }
-        console.log(data)
-        dispatch(signUp(data))
-        navigate('/login')
+          }
+          dispatch(signUp(data))
+        // navigate('/login')
     }
 
     useEffect(() => {
