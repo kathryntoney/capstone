@@ -6,11 +6,11 @@ const uuid4 = require('uuid4')
 const secrets = require('../secrets');
 const bcrypt = require('bcryptjs'); //used to encrypt passwords
 
-// const db = require('../models');
+const db = require('../models');
 
 const passport = require('passport');
 
-// require('../auth/passAuth')
+require('../auth/passAuth')
 
 
 router.use(express.urlencoded({extended: false}))  //scrapes email and pwed from request header 
@@ -47,6 +47,7 @@ router.post('/registration', async (req, res) => {
         // email, password 
 
     try{
+       
         let {name, email, password, profilePic} = req.body
 
         //check to see if this user is already in our db 
@@ -60,7 +61,7 @@ router.post('/registration', async (req, res) => {
 
             // create a new user record 
 
-            let newUserRecord = await db.users.create({id:uuid4,email, password, profilePic})
+            let newUserRecord = await db.users.create({name,email, password, profilePic})
 
 
             let jwtToken = token(newUserRecord)
@@ -80,8 +81,9 @@ router.post('/registration', async (req, res) => {
 
     }
     catch(error){
-
+        console.log(error, "error")
         res.status(432).json({error: "Can't access database"})
+
     }
 
 

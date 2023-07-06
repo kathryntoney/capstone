@@ -1,5 +1,5 @@
 import React from 'react';
-import ReactDOM from 'react-dom/client';
+import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import Login from './components/Login';
@@ -13,8 +13,8 @@ let store = configureStore({
   reducer: authSlice
 })
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(
+ReactDOM.render(
+
   <React.StrictMode>
     <Provider store={store}>
       <Router>
@@ -22,10 +22,12 @@ root.render(
           <Routes>
             <Route path='/login' element={<Login />} />
             <Route path='/' element={<App />} />
+            
           </Routes>
         </BaseLayout>
       </Router>
     </Provider>
-  </React.StrictMode>
+  </React.StrictMode>,
+    document.getElementById('root')
 );
 
