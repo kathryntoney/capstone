@@ -1,6 +1,6 @@
 // import './App.css';
 import Leftbar from './components/Leftbar';
-import Main from './components/Main'
+import Main from './components/Wines'
 import Rightbar from './components/Rightbar';
 import Navbar from './components/Navbar';
 import AddPost from './components/AddPost';
@@ -11,7 +11,7 @@ function App() {
 
   return (
       <Box>
-        {/* <Navbar /> */}
+        <Navbar />
         <Stack direction="row" spacing={2} justifyContent="space-between">
           <Leftbar />
           <Main />

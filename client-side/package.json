@@ -17,6 +17,7 @@
     "axios": "^1.4.0",
     "cloudinary": "^1.37.3",
     "dotenv": "^16.3.1",
+    "http-proxy-middleware": "^2.0.6",
     "openai": "^3.3.0",
     "path": "^0.12.7",
     "path-browserify": "^1.0.1",

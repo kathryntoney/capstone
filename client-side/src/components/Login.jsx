@@ -1,7 +1,10 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import { Box, Typography, TextField, Modal, Button } from '@mui/material'
 import { styled } from '@mui/material/styles'
 import Registration from './Registration'
+import { useNavigate } from 'react-router-dom'
+import { signIn, checkToken } from './auth/authSlice'
 
 const StyledTextField = styled(TextField)({
     display: "flex",
@@ -20,13 +23,50 @@ const StyledModal = styled(Modal)({
 
 const Login = () => {
     const [openRegistration, setOpenRegistration] = useState(false)
+    const navigate = useNavigate()
+    const dispatch = useDispatch()
+    const [email, setEmail] = useState('')
+    const [password, setPassword] = useState('')
+    const isLoading = (state => state.isLoading)
+    const token = useSelector(state => state.token)
+
+    useEffect(() => {
+        if (localStorage.token) {
+            dispatch(checkToken())
+        }
+    }, [])
+
+    useEffect(() => {
+        if (!isLoading && token) {
+            navigate('/')
+        }
+    }, [token])
+
+    const handleSubmit = (e) => {
+        e.preventDefault()
+        let data = {
+            formData: {
+                email,
+                password
+            }
+        }
+        dispatch(signIn(data))
+        navigate('/')
+    }
+
+    // useEffect(() => {
+    //     if (!isLoading && token) {
+    //         navigate('/')
+    //     }
+    // }, [token])
 
     return (
         <>
             <Typography variant='h5' sx={{ fontFamily: "'Nunito', sans - serif", display: 'flex', justifyContent: 'center', marginTop: '10px' }}>Login:</Typography>
             <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                <StyledTextField placeholder='email' />
-                <StyledTextField placeholder='password' />
+                <StyledTextField type='email' placeholder='email' onChange={e => setEmail(e.target.value)} />
+                <StyledTextField type='password' placeholder='password' onChange={e => setPassword(e.target.value)} />
+                <Button variant='contained' sx={{ margin: '10px' }} onClick={handleSubmit} >Submit</Button>
             </Box>
             <Box>
                 <Typography variant='h5' sx={{ fontFamily: "'Nunito', sans - serif", display: 'flex', justifyContent: 'center', marginTop: '10px' }}><a href='#' onClick={e => setOpenRegistration(true)}>First time here?</a></Typography>
