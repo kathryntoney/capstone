@@ -3,7 +3,7 @@ import Camera, {IMAGE_TYPES, FACING_MODES} from 'react-html5-camera-photo';
 import ImagePreview from './ImagePreview';
 
 
-const Camera = (props) => {
+const Photo = (props) => {
     const [dataUri, setDataUri] = useState('');
 
 
@@ -41,4 +41,4 @@ const isFullscreen= false
   )
 }
 
-export default Camera
+export default Photo
