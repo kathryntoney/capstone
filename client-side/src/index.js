@@ -13,6 +13,7 @@ import Photo from './components/Photo'
 import Wines from './components/Wines';
 import Main from './components/Main';
 import RequireAuth from './components/RequireAuth';
+import Photo from './components/Photo'
 
 let store = configureStore({
   reducer: authSlice

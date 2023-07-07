@@ -1,35 +1,14 @@
 import React, {useState} from 'react'
 import PropTypes from 'prop-types';
-import MenuReader from './MenuReader';
 
-export const ImagePreview = ({ dataUri, isFullscreen }) => {
-    let classNameFullscreen = isFullscreen ? 'demo-image-preview-fullscreen' : '';
-    // const [dataUri, setDataUri] = useState({dataUri})
-    const [interpret, setInterpret] = useState(false)
-// const handleRetake = () => { 
-//     setDataUri("")
+export const ImagePreview = ({ dataUri }) => {
     
-//  }
-const handleSubmit =(dataUri)=>{
-    setInterpret(true)
-}
-
     return (
-        <div>
-      <div className={'demo-image-preview ' + classNameFullscreen}>
-        <img src={dataUri} />
+        <div  >
+      
+        <img style={{height:"70vh", margin:"2%", width:"95%"}}  src={dataUri} />
 
-        {/* <button onClick={handleRetake}>Try again</button> */}
-        <button onClick={handleSubmit}>Use this pic</button>
-      </div>
-
-      {/* <div>{
-        <div>
-        (interpret == true)?
-            <MenuReader dataUri={dataUri}/>
-        </div>
-    }:
-      </div> */}
+        
       </div>
     );
   };

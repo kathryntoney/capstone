@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from "react";
 import Tesseract from 'tesseract.js'
 import OpenAI from './OpenAI'
-import { Form } from "react-router-dom";
+
 
 const MenuReader = ({dataUri}) => {
     const [ocr, setOcr] = useState("");
-    // const [imageData, setImageData] = useState(dataUri);
+ 
 const [dish, setDish] = useState('')
-
+const [ask, setAsk]= useState(false)
 Tesseract.recognize(dataUri)
     .then(function(result){
-        console.log(result)
+      
         setOcr(result.data.text)
         console.log(ocr)
     })
@@ -18,25 +18,31 @@ Tesseract.recognize(dataUri)
 
     const handleSubmit = (e) => {
             e.preventDefault()
-
+        setAsk(true)
+        console.log(dish, "submit")
      }
+
+   
+     
 
   return (
     <>
     <div>
-        {ocr}
-        <form onSubmit={handleSubmit}>
-            <input onChange={(e)=>(setDish(e.target.value))}>What will you be eating tonight?</input>
-            <button>submit</button>
-        </form>
-       
-       {
-           <div>
-       ({ocr} && {dish})?
-            <OpenAI ocr={ocr} dish={dish}/>
-        </div>
-    }:
-   
+        {/* {ocr} */}
+        
+            <div>
+                
+
+               
+                
+                 <div>
+                 <OpenAI ocr={ocr}  />
+                    </div>
+                    
+
+            </div>
+           
+        
     </div>
     </>
   )
