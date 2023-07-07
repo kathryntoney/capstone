@@ -45,8 +45,8 @@ const Navbar = () => {
   console.log('profilePic: ', profilePic)
   const name = useSelector(state => state.name)
   console.log('username: ', name)
-  const defaultPic = 'https://cdn-icons-png.flaticon.com/512/1942/1942436.png'
-  const defaultName = 'Welcome!'
+  // const defaultPic = 'https://cdn-icons-png.flaticon.com/512/1942/1942436.png'
+  // const defaultName = 'Welcome!'
   const [open, setOpen] = useState(false)
 
   return (
@@ -59,12 +59,12 @@ const Navbar = () => {
             <Favorite />
           </Badge>
           <Badge sx={{ ml: '5px' }}>
-            <Avatar onClick={e => setOpen(true)} src={profilePic || defaultPic} />
+            <Avatar onClick={e => setOpen(true)} src={profilePic} />
           </Badge>
         </Icons>
         <UserBox onClick={e => setOpen(true)}>
-          <Avatar src={profilePic || defaultPic} />
-          <Typography variant="span">{name || defaultName}</Typography>
+          <Avatar src={profilePic} />
+          <Typography variant="span">{name}</Typography>
         </UserBox>
       </StyledToolbar>
       <Menu

@@ -63,7 +63,6 @@ router.post('/registration', async (req, res) => {
 
             let newUserRecord = await db.users.create({ name, email, password, profilePic })
 
-
             let jwtToken = token(newUserRecord)
             // create a jwt 
 
@@ -109,7 +108,36 @@ router.get('/protected', requireJwt, (req, res) => {
     res.json({ isValid: true, id: req.user.id })
 })
 
+router.get('/wines', async (req, res) => {
+    console.log('req.user ', req.user)
+    const userID = req.user
+    console.log('get wines userID: ', userID)
+    try {
+        let records = await db.favorites.findAll({ where: { userID: `${userID}` } })
+        return records
+    } catch (error) {
+        console.log('error getting wines: ', error)
+    }
+})
 
+router.post('/addwine', async (req, res) => {
+    console.log('req.user ', req.user)
+    const userID = req.user
+    console.log('add wine userID: ', userID)
+    let { notes, picture } = req.body
+    try {
+        let insertWine = await db.favorites.create({
+            userID: `${userID}`,
+            notes,
+            picture,
+            createdAt: new Date(),
+            updatedAt: new Date()
+        })
+    } catch (error) {
+        console.log('error adding wine: ', error)
+        throw error
+    }
+})
 
 
 // login api endpoint

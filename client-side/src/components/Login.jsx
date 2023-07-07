@@ -36,6 +36,13 @@ const Login = () => {
         }
     }, [])
 
+    // useEffect(() => {
+    //     const token = localStorage.getItem('token');
+    //     if (token) {
+    //         dispatch(checkToken())
+    //     }
+    // }, [])
+
     useEffect(() => {
         if (!isLoading && token) {
             navigate('/')
@@ -50,15 +57,10 @@ const Login = () => {
                 password
             }
         }
+        console.log(data)
         dispatch(signIn(data))
         navigate('/')
     }
-
-    // useEffect(() => {
-    //     if (!isLoading && token) {
-    //         navigate('/')
-    //     }
-    // }, [token])
 
     return (
         <>
