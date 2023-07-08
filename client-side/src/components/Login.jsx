@@ -36,13 +36,6 @@ const Login = () => {
         }
     }, [])
 
-    // useEffect(() => {
-    //     const token = localStorage.getItem('token');
-    //     if (token) {
-    //         dispatch(checkToken())
-    //     }
-    // }, [])
-
     useEffect(() => {
         if (!isLoading && token) {
             navigate('/')

@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 
 const jwt = require('jwt-simple');
+
 const uuid4 = require('uuid4')
 const secrets = require('../secrets');
 const bcrypt = require('bcryptjs'); //used to encrypt passwords
@@ -20,12 +21,40 @@ router.use(express.json())
 let requireLogin = passport.authenticate('local', { session: false })
 let requireJwt = passport.authenticate('jwt', { session: false })
 
+// function requireLogin(req, res, next) {
+//     passport.authenticate('local', { session: false }, (err, user, info) => {
+//         if (err) {
+//             return res.status(500).json({ error: "Internal server error" });
+//         }
+//         if (!user) {
+//             return res.status(401).json({ error: "Unauthorized" });
+//         }
+//         req.user = user; // Set the authenticated user
+//         next();
+//     })(req, res, next);
+// }
+
+// function requireJwt(req, res, next) {
+//     passport.authenticate('jwt', { session: false }, (err, user, info) => {
+//       if (err) {
+//         return res.status(500).json({ error: "Internal server error" });
+//       }
+//       if (!user) {
+//         return res.status(401).json({ error: "Unauthorized" });
+//       }
+//       req.user = user;
+//       next();
+//     })(req, res, next);
+//   }
+
+
 const token = (userRecord) => {
 
     let timestamp = new Date().getTime();  //current time in ms
+    // const payload = { sub: userRecord.id }
+    // const token = jwt.sign(payload, secrets.secrets)
 
-
-    // console.log(userRecord);
+    console.log(userRecord);
     //creates a jwt
 
     return jwt.encode({ sub: userRecord.id, iat: timestamp }, secrets.secrets)
@@ -121,18 +150,25 @@ router.get('/wines', async (req, res) => {
 })
 
 router.post('/addwine', async (req, res) => {
-    console.log('req.user ', req.user)
-    const userID = req.user
+    console.log('req.user', req.user)
+    console.log('req.body', req.body)
+    console.log('req.user.id', req.user.id)
+    const userID = req.user.id
     console.log('add wine userID: ', userID)
-    let { notes, picture } = req.body
+    // const decodedToken = jwt.decode(token, secrets.secrets)
+    // console.log(decodedToken)
+    // const userID = decodedToken.id
+
+    const { notes, picture } = req.body
     try {
-        let insertWine = await db.favorites.create({
-            userID: `${userID}`,
+        const insertWine = await db.favorites.create({
+            userID: req.user.id,
             notes,
             picture,
             createdAt: new Date(),
             updatedAt: new Date()
         })
+        res.sendStatus(200)
     } catch (error) {
         console.log('error adding wine: ', error)
         throw error

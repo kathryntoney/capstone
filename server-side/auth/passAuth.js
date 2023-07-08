@@ -27,9 +27,9 @@ let localStrategy = new LocalStrategy(options, async (email, password, done) => 
 
             // if the email foound, compare new password with encrypted password in db 
             console.log('checkpoint 3')
-            console.log(password)
+            // console.log(password)
             console.log(records)
-            console.log(records[0].password)
+            // console.log(records[0].password)
             bcrypt.compare(password, records[0].password, (err, isMatch) => {
 
                 if (err) {

@@ -12,7 +12,7 @@ const initialState = {
 const SIGN_UP = "SIGN_UP" //action types
 const SIGN_IN = "SIGN_IN" //action types
 const CHECK_TOKEN = "CHECK_TOKEN" //action types
-const ADD_WINE = "ADD_WINE"
+// const ADD_WINE = "ADD_WINE"
 
 // pending, fullfilled, rejected
 
@@ -53,15 +53,15 @@ export const checkToken = createAsyncThunk(CHECK_TOKEN, async (params, thunkAPI)
     return { isValid: false }
 })
 
-export const addWine = createAsyncThunk(ADD_WINE, async (params, thunkAPI) => {
-    try {
-        const response = await axios.post('/addwine', params.formData)
-        return response.data
-    } catch (error) {
-        console.log('error adding new wine: ', error)
-        throw error
-    }
-})
+// export const addWine = createAsyncThunk(ADD_WINE, async (params, thunkAPI) => {
+//     try {
+//         const response = await axios.post('/addwine', params.formData)
+//         return response.data
+//     } catch (error) {
+//         console.log('error adding new wine: ', error)
+//         throw error
+//     }
+// })
 
 let authSlice = createSlice({
     name: 'auth',
@@ -136,6 +136,19 @@ let authSlice = createSlice({
             state.error = "Couldn't fetch data"
             state.token = ""
         },
+        // [addWine.pending]: (state, action) => {
+        //     state.isLoading = true;
+        // },
+        // [addWine.fulfilled]: (state, { payload }) => {
+        //     state.isLoading = false
+        //     if (payload.isValid) {
+        //         state.token = localStorage.getItem('token', payload)
+        //     }
+        // },
+        // [addWine.rejected]: (state, action) => {
+        //     state.isLoading = false;
+        //     state.error = "couldn't add wine"
+        // }
     }
 })
 

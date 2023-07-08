@@ -4,8 +4,8 @@ import { useNavigate } from 'react-router-dom'
 import { Tooltip, Fab, Modal, Box, Typography, Avatar, TextField, Stack, ButtonGroup, Button } from '@mui/material'
 import { styled } from '@mui/material/styles'
 import AddIcon from '@mui/icons-material/Add';
-import { addWine } from './auth/authSlice'
 import Axios from 'axios'
+
 
 const StyledModal = styled(Modal)({
     display: 'flex',
@@ -27,7 +27,7 @@ const AddWine = () => {
     const [notes, setNotes] = useState('')
     const isLoading = useSelector(state => state.isLoading)
     const token = useSelector(state => state.token)
-    console.log('addwine ', token)
+    // console.log('addwine ', token)
     const dispatch = useDispatch()
     const navigate = useNavigate()
 
@@ -38,15 +38,22 @@ const AddWine = () => {
         formData.append("file", imageSelected)
         formData.append("folder", 'pocketsomm-wines')
         formData.append("upload_preset", "yhxzftqb")
-        const response = await Axios.post("https://api.cloudinary.com/v1_1/ktprojects/image/upload", formData)
-        console.log(response.data.url)
-        const pictureURL = response.data.url
+        const picture = await Axios.post("https://api.cloudinary.com/v1_1/ktprojects/image/upload", formData)
+        console.log(picture.data.url)
+        const pictureURL = picture.data.url
         setPicture(pictureURL)
         const data = {
+            userID: token.id,
             picture: pictureURL,
             notes
         }
-        dispatch(addWine({ formData: data }))
+        console.log('add wine', token)
+        // dispatch(addWine({ formData: data }))
+        const response = await Axios.post('/addwine', data, {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        })
         setOpen(false)
         navigate('/wines')
     }
