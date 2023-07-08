@@ -21,33 +21,6 @@ router.use(express.json())
 let requireLogin = passport.authenticate('local', { session: false })
 let requireJwt = passport.authenticate('jwt', { session: false })
 
-// function requireLogin(req, res, next) {
-//     passport.authenticate('local', { session: false }, (err, user, info) => {
-//         if (err) {
-//             return res.status(500).json({ error: "Internal server error" });
-//         }
-//         if (!user) {
-//             return res.status(401).json({ error: "Unauthorized" });
-//         }
-//         req.user = user; // Set the authenticated user
-//         next();
-//     })(req, res, next);
-// }
-
-// function requireJwt(req, res, next) {
-//     passport.authenticate('jwt', { session: false }, (err, user, info) => {
-//       if (err) {
-//         return res.status(500).json({ error: "Internal server error" });
-//       }
-//       if (!user) {
-//         return res.status(401).json({ error: "Unauthorized" });
-//       }
-//       req.user = user;
-//       next();
-//     })(req, res, next);
-//   }
-
-
 const token = (userRecord) => {
 
     let timestamp = new Date().getTime();  //current time in ms
@@ -94,9 +67,11 @@ router.post('/registration', async (req, res) => {
 
             let jwtToken = token(newUserRecord)
             // create a jwt 
-
+            localStorage.setItem('token', jwtToken)
+            localStorage.setItem('userID', newUserRecord.id)
             // return jwt 
-            res.json({ token: jwtToken })
+            console.log({ userID: req.user.id, token: jwtToken })
+            res.json({ userID: newUserRecord.id, token: jwtToken })
         }
         else {
 
@@ -122,9 +97,11 @@ router.post('/registration', async (req, res) => {
 // (passport local strategy)
 
 router.post('/login', requireLogin, (req, res) => {
-
-    res.json({ token: token(req.user) })
-
+    let jwtToken = token(req.user)
+    // localStorage.setItem('token', jwtToken)
+    localStorage.setItem('userID', newUserRecord.id)
+    res.json({ userID: req.user.id, token: token(jwtToken) })
+    console.log({ userID: req.user.id, token: jwtToken })
 })
 
 
@@ -137,32 +114,23 @@ router.get('/protected', requireJwt, (req, res) => {
     res.json({ isValid: true, id: req.user.id })
 })
 
-router.get('/wines', async (req, res) => {
-    console.log('req.user ', req.user)
-    const userID = req.user
-    console.log('get wines userID: ', userID)
-    try {
-        let records = await db.favorites.findAll({ where: { userID: `${userID}` } })
-        return records
-    } catch (error) {
-        console.log('error getting wines: ', error)
-    }
-})
+// router.get('/wines', async (req, res) => {
+//     console.log('req.user ', req.user)
+//     const userID = req.user
+//     console.log('get wines userID: ', userID)
+//     try {
+//         let records = await db.favorites.findAll({ where: { userID: `${userID}` } })
+//         return records
+//     } catch (error) {
+//         console.log('error getting wines: ', error)
+//     }
+// })
 
 router.post('/addwine', async (req, res) => {
-    console.log('req.user', req.user)
-    console.log('req.body', req.body)
-    console.log('req.user.id', req.user.id)
-    const userID = req.user.id
-    console.log('add wine userID: ', userID)
-    // const decodedToken = jwt.decode(token, secrets.secrets)
-    // console.log(decodedToken)
-    // const userID = decodedToken.id
-
-    const { notes, picture } = req.body
+    const { userID, notes, picture } = req.body
     try {
         const insertWine = await db.favorites.create({
-            userID: req.user.id,
+            userID,
             notes,
             picture,
             createdAt: new Date(),
