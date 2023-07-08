@@ -50,15 +50,10 @@ const Login = () => {
                 password
             }
         }
+        console.log(data)
         dispatch(signIn(data))
         navigate('/')
     }
-
-    // useEffect(() => {
-    //     if (!isLoading && token) {
-    //         navigate('/')
-    //     }
-    // }, [token])
 
     return (
         <>

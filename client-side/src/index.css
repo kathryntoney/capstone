@@ -31,3 +31,7 @@ font-family: 'Roboto Mono', monospace;
 display: flex;
 justify-content: center;
 }
+
+#root {
+  height: 100vh;
+}
