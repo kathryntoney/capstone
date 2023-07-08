@@ -1,10 +1,12 @@
 import '../index.css';
 import React, { useState } from 'react'
+import { useSelector } from 'react-redux'
 import { AppBar, Toolbar, Typography, Box, InputBase, Avatar, Badge, Menu, MenuItem } from '@mui/material'
 import { styled } from '@mui/material/styles'
 import WineBar from '@mui/icons-material/WineBar';
 // import { borderRadius } from '@mui/system'
 import Favorite from '@mui/icons-material/Favorite';
+import Axios from 'axios'
 
 const StyledToolbar = styled(Toolbar)({
   display: "flex",
@@ -39,6 +41,12 @@ const UserBox = styled(Box)(({ theme }) => ({
 }))
 
 const Navbar = () => {
+  const profilePic = useSelector(state => state.profilePic)
+  console.log('profilePic: ', profilePic)
+  const name = useSelector(state => state.name)
+  console.log('username: ', name)
+  // const defaultPic = 'https://cdn-icons-png.flaticon.com/512/1942/1942436.png'
+  // const defaultName = 'Welcome!'
   const [open, setOpen] = useState(false)
 
   return (
@@ -51,12 +59,12 @@ const Navbar = () => {
             <Favorite />
           </Badge>
           <Badge sx={{ ml: '5px' }}>
-            <Avatar onClick={e => setOpen(true)} src='https://media.licdn.com/dms/image/D5635AQF5L1U9InOswA/profile-framedphoto-shrink_200_200/0/1680273766602?e=1688677200&v=beta&t=ItAk7-TVMDb0VjWon5r422sFqkWOrdaLJ77REI-wD_w' />
+            <Avatar onClick={e => setOpen(true)} src={profilePic} />
           </Badge>
         </Icons>
         <UserBox onClick={e => setOpen(true)}>
-          <Avatar src='https://media.licdn.com/dms/image/D5635AQF5L1U9InOswA/profile-framedphoto-shrink_200_200/0/1680273766602?e=1688677200&v=beta&t=ItAk7-TVMDb0VjWon5r422sFqkWOrdaLJ77REI-wD_w' />
-          <Typography variant="span">Katie</Typography>
+          <Avatar src={profilePic} />
+          <Typography variant="span">{name}</Typography>
         </UserBox>
       </StyledToolbar>
       <Menu

@@ -1,12 +1,11 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
 import { Tooltip, Fab, Modal, Box, Typography, Avatar, TextField, Stack, ButtonGroup, Button } from '@mui/material'
-import {styled} from '@mui/material/styles'
+import { styled } from '@mui/material/styles'
 import AddIcon from '@mui/icons-material/Add';
-import EmojiEmotionsIcon from '@mui/icons-material/EmojiEmotions';
-import ImageIcon from '@mui/icons-material/Image';
-import VideoCameraBackIcon from '@mui/icons-material/VideoCameraBack';
-import PersonAddIcon from '@mui/icons-material/PersonAdd';
-import DateRangeIcon from '@mui/icons-material/DateRange';
+import Axios from 'axios'
+
 
 const StyledModal = styled(Modal)({
     display: 'flex',
@@ -21,8 +20,45 @@ const StyledModal = styled(Modal)({
 //     marginBottom: '20px'
 // })
 
-const AddPost = () => {
+const AddWine = () => {
     const [open, setOpen] = useState(false)
+    const [picture, setPicture] = useState('')
+    const [imageSelected, setImageSelected] = useState('')
+    const [notes, setNotes] = useState('')
+    const isLoading = useSelector(state => state.isLoading)
+    const token = useSelector(state => state.token)
+    // console.log('addwine ', token)
+    const dispatch = useDispatch()
+    const navigate = useNavigate()
+
+    const handleSubmit = async (e) => {
+        e.preventDefault()
+        console.log(imageSelected)
+        const formData = new FormData()
+        formData.append("file", imageSelected)
+        formData.append("folder", 'pocketsomm-wines')
+        formData.append("upload_preset", "yhxzftqb")
+        const picture = await Axios.post("https://api.cloudinary.com/v1_1/ktprojects/image/upload", formData)
+        console.log(picture.data.url)
+        const pictureURL = picture.data.url
+        setPicture(pictureURL)
+        const data = {
+            userID: token.id,
+            picture: pictureURL,
+            notes
+        }
+        console.log('add wine', token)
+        // dispatch(addWine({ formData: data }))
+        const response = await Axios.post('/addwine', data, {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        })
+        setOpen(false)
+        navigate('/wines')
+    }
+
+
     return (
         <>
             <Tooltip onClick={e => setOpen(true)} title='New Post' sx={{ position: 'fixed', bottom: 20, left: { xs: "calc(50% - 25px)", md: 30 } }}>
@@ -47,18 +83,20 @@ const AddPost = () => {
                         sx={{ width: '100%' }}
                         id='standard-multiline-static'
                         rows={4}
-                        placeholder="What's on your mind?"
+                        placeholder="Enter notes about your wine here"
                         variant='standard'
+                        onChange={(e) => setNotes(e.target.value)}
                     />
-                    <Stack direction='row' gap={1} mt={2} mb={3}>
+
+                    {/* <Stack direction='row' gap={1} mt={2} mb={3}>
                         <EmojiEmotionsIcon color='primary' />
                         <ImageIcon color='secondary' />
                         <VideoCameraBackIcon color='success' />
                         <PersonAddIcon color='error' />
-                    </Stack>
+                    </Stack> */}
+                    <input type='file' onChange={(e) => { setImageSelected(e.target.files[0]) }}></input>
                     <ButtonGroup variant='contained' aria-label='outlined primary button group' fullWidth>
-                        <Button>Post</Button>
-                        <Button><DateRangeIcon /></Button>
+                        <Button onClick={handleSubmit}>Submit</Button>
                         <Button onClick={e => setOpen(false)}>Cancel</Button>
                     </ButtonGroup>
                 </Box>
@@ -67,4 +105,4 @@ const AddPost = () => {
     )
 }
 
-export default AddPost
+export default AddWine
