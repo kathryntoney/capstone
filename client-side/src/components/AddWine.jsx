@@ -5,6 +5,7 @@ import { Tooltip, Fab, Modal, Box, Typography, Avatar, TextField, Stack, ButtonG
 import { styled } from '@mui/material/styles'
 import AddIcon from '@mui/icons-material/Add';
 import Axios from 'axios'
+import { addWine } from './auth/authSlice'
 
 
 const StyledModal = styled(Modal)({
@@ -27,7 +28,13 @@ const AddWine = () => {
     const [notes, setNotes] = useState('')
     const isLoading = useSelector(state => state.isLoading)
     const token = useSelector(state => state.token)
-    // console.log('addwine ', token)
+    // const userID = useSelector(state => state.userID)
+    const userID = localStorage.getItem('userID')
+    console.log('userID', userID)
+    // const state = useSelector(state => state)
+    // console.log('state', state)
+    console.log('add wine', userID)
+    console.log('addwine ', token)
     const dispatch = useDispatch()
     const navigate = useNavigate()
 
@@ -43,21 +50,15 @@ const AddWine = () => {
         const pictureURL = picture.data.url
         setPicture(pictureURL)
         const data = {
-            userID: token.id,
+            userID: userID,
             picture: pictureURL,
             notes
         }
-        console.log('add wine', token)
-        // dispatch(addWine({ formData: data }))
-        const response = await Axios.post('/addwine', data, {
-            headers: {
-                'Authorization': `Bearer ${token}`
-            }
-        })
+        console.log('dataset: ', data)
         setOpen(false)
+        dispatch(addWine({ formData: data }))
         navigate('/wines')
     }
-
 
     return (
         <>
@@ -87,13 +88,6 @@ const AddWine = () => {
                         variant='standard'
                         onChange={(e) => setNotes(e.target.value)}
                     />
-
-                    {/* <Stack direction='row' gap={1} mt={2} mb={3}>
-                        <EmojiEmotionsIcon color='primary' />
-                        <ImageIcon color='secondary' />
-                        <VideoCameraBackIcon color='success' />
-                        <PersonAddIcon color='error' />
-                    </Stack> */}
                     <input type='file' onChange={(e) => { setImageSelected(e.target.files[0]) }}></input>
                     <ButtonGroup variant='contained' aria-label='outlined primary button group' fullWidth>
                         <Button onClick={handleSubmit}>Submit</Button>
