@@ -1,12 +1,13 @@
 import React, {useState} from 'react'
 import PropTypes from 'prop-types';
+import '../assets/imagePreview.css'
 
 export const ImagePreview = ({ dataUri }) => {
-    
+  // let classNameFullscreen = isFullscreen ? 'demo-image-preview-fullscreen' : '';
     return (
-        <div  >
+        <div className={'demo-image-preview '} >
       
-        <img style={{height:"70vh", margin:"2%", width:"95%"}}  src={dataUri} />
+        <img   src={dataUri} />
 
         
       </div>

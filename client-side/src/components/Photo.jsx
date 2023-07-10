@@ -2,7 +2,8 @@ import React, { useState } from 'react'
 import Camera, { IMAGE_TYPES, FACING_MODES } from 'react-html5-camera-photo';
 import ImagePreview from './ImagePreview';
 import { AppBar, Toolbar, Typography, Box, InputBase, Avatar, Badge, Menu, MenuItem } from '@mui/material'
-
+import MenuReader from './MenuReader';
+ import '../assets/photo.css'
 const Photo = (props) => {
   const [dataUri, setDataUri] = useState('');
 
@@ -13,13 +14,20 @@ const Photo = (props) => {
 
 
   }
+
+  const handleRetake = () => { 
+    setDataUri("")
+
+ }
   // const isFullscreen = false
   return (
     <>
       {
         (dataUri)
-          ? <Box sx={{  height: '100vh', width: '100%', objectFit: 'fill' }}>
+          ? <Box >
             <ImagePreview dataUri={dataUri} />
+            <button onClick={handleRetake}>Try again</button>
+            <div><MenuReader dataUri={dataUri}/></div>
           </Box>
           : <Camera onTakePhotoAnimationDone={handleTakePhotoAnimationDone}
             isFullscreen={false}
@@ -30,6 +38,7 @@ const Photo = (props) => {
             idealResolution={{ width: 390, height: 844 }}
 
           />
+          
 
       }
 
