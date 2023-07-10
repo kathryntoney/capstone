@@ -12,9 +12,9 @@ const OpenAI = ({ocr}) => {
   const [loading, setLoading] = useState(false);
   const [dish, setDish] = useState('')
 
-//   const handleSubmit = async (e) => {
-//     e.preventDefault();
-//     setLoading(true);
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
    
     try {
        
@@ -25,15 +25,15 @@ const OpenAI = ({ocr}) => {
         max_tokens: 2000,
    
         
-//       });
+      });
       
       setApiResponse(result.data.choices[0].text);
     } catch (err) {
     
-//       setApiResponse("Something is going wrong, Please try again.");
-//     }
+      setApiResponse("Something is going wrong, Please try again.");
+    }
    
-//       setLoading(false);
+      setLoading(false);
     
     
   };
