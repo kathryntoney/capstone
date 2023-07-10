@@ -1,14 +1,19 @@
 import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import Tesseract from 'tesseract.js'
 import OpenAI from './OpenAI'
+import {Box, Typography, Input, Button }from '@mui/material'
+const ariaLabel = { 'aria-label': 'description' };
 
-
-const MenuReader = ({dataUri}) => {
+const MenuReader = () => {
     const [ocr, setOcr] = useState("");
- 
-const [dish, setDish] = useState('')
-const [ask, setAsk]= useState(false)
+    const [dish, setDish] = useState("")
+ const dataUri = useSelector(state=> state.dataUri.dataUri)
+ const dispatch = useDispatch()
+
+
 Tesseract.recognize(dataUri)
+
     .then(function(result){
       
         setOcr(result.data.text)
@@ -16,34 +21,22 @@ Tesseract.recognize(dataUri)
     })
 
 
-    const handleSubmit = (e) => {
-            e.preventDefault()
-        setAsk(true)
-        console.log(dish, "submit")
-     }
-
+   
    
      
 
   return (
     <>
     <div>
-        {/* {ocr} */}
         
-            <div>
-                
-
-               
-                
-                 <div>
-                 <OpenAI ocr={ocr}  />
-                    </div>
-                    
-
-            </div>
+         <br/>
+         <br/>
+        
+            <OpenAI ocr={ocr}  />
            
         
-    </div>
+         </div>
+       
     </>
   )
 }

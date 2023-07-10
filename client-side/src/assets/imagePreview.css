@@ -10,7 +10,7 @@
   @media(max-width:768px){
     .demo-image-preview > img {
         width:100vw;
-        height: 60vh;
+        height: 50vh;
     }
   }
   

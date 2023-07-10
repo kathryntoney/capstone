@@ -13,6 +13,7 @@ import Photo from './components/Photo'
 import Wines from './components/Wines';
 import Main from './components/Main';
 import RequireAuth from './components/RequireAuth';
+import MenuReader from './components/MenuReader';
 
 let store = configureStore({
   reducer: authSlice
@@ -29,7 +30,7 @@ ReactDOM.render(
             <Route path='/' element={<RequireAuth><Main /></RequireAuth>} />
             <Route path='/wines' element={<Wines />} />
             <Route path='/pairing' element={<Pairing />} />
-            <Route path='/photo' element={<Photo />} />
+            <Route path='/suggestions' element={<MenuReader />} />
           </Routes>
         </BaseLayout>
       </Router>
