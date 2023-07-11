@@ -3,7 +3,7 @@ import Camera, { IMAGE_TYPES, FACING_MODES } from 'react-html5-camera-photo';
 import ImagePreview from './ImagePreview';
 import { AppBar, Toolbar, Typography, Box, InputBase, Avatar, Badge, Menu, MenuItem } from '@mui/material'
 import MenuReader from './MenuReader';
- import '../assets/photo.css'
+import '../assets/photo.css'
 const Photo = (props) => {
   const [dataUri, setDataUri] = useState('');
 

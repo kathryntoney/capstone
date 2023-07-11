@@ -16,9 +16,9 @@ let options = {
 
 
 let localStrategy = new LocalStrategy(options, async (email, password, done) => {
-    console.log('checkpoint 1')
+    console.log('checkpoint 1, login')
     try {
-        console.log('checkpoint 2')
+        console.log('checkpoint 2, login')
         // check if email in in our db
         let records = await db.users.findAll({ where: { email } })
 
@@ -26,7 +26,7 @@ let localStrategy = new LocalStrategy(options, async (email, password, done) => 
             // if the email is found,
 
             // if the email foound, compare new password with encrypted password in db 
-            console.log('checkpoint 3')
+            console.log('checkpoint 3, login')
             // console.log(password)
             console.log(records)
             // console.log(records[0].password)
@@ -40,7 +40,7 @@ let localStrategy = new LocalStrategy(options, async (email, password, done) => 
                 if (!isMatch) {
                     return done(null, false) // no auth because passwords didn't match
                 }
-                console.log('checkpoint 4')
+                console.log('checkpoint 4, login')
                 return done(null, records[0]) //match was found, send record
 
                 //req.user
@@ -86,29 +86,29 @@ let jwtOptions = {
 }
 
 let jwtLogin = new JwtStrategy(jwtOptions, async (payload, done) => {
-
+    console.log('checkpoint 1 jwt strat')
     try {
-
+        console.log(payload)
         let userID = payload.sub;
-
+        console.log('userID: ', userID)
         let user = await db.users.findByPk(userID) // {}  or null
-
+        console.log('checkpoint 2', user)
         if (user) {
-
+            console.log('checkpoint 3')
             return done(null, user)  // place the user object on the req.user
             // req.user = {id, email, password, createAt, updatedAt}
         }
         else {
 
             // no use found
-
+            console.log('checkpoint 4')
             return done(null, false) // not putting anythig on the req
         }
 
     }
     catch (error) {
         // error in decoding the token or reading the db
-
+        console.log('checkpoint 5', error)
         return done(error)
     }
 

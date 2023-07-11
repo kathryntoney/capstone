@@ -27,7 +27,7 @@ const token = (userRecord) => {
     // const payload = { sub: userRecord.id }
     // const token = jwt.sign(payload, secrets.secrets)
 
-    console.log(userRecord);
+    console.log('jwt user record:', userRecord);
     //creates a jwt
 
     return jwt.encode({ sub: userRecord.id, iat: timestamp }, secrets.secrets)
@@ -35,8 +35,6 @@ const token = (userRecord) => {
 
 
 router.get('/', (req, res) => {
-
-
     res.send('hello world')
 })
 
@@ -67,8 +65,8 @@ router.post('/registration', async (req, res) => {
 
             let jwtToken = token(newUserRecord)
             // create a jwt 
-            localStorage.setItem('token', jwtToken)
-            localStorage.setItem('userID', newUserRecord.id)
+            // localStorage.setItem('token', jwtToken)
+            // localStorage.setItem('userID', newUserRecord.id)
             // return jwt 
             console.log({ userID: req.user.id, token: jwtToken })
             res.json({ userID: newUserRecord.id, token: jwtToken })
@@ -97,10 +95,11 @@ router.post('/registration', async (req, res) => {
 // (passport local strategy)
 
 router.post('/login', requireLogin, (req, res) => {
-    let jwtToken = token(req.user)
+    console.log('creating token:', req.user.dataValues)
+    let jwtToken = token(req.user.dataValues)
     // localStorage.setItem('token', jwtToken)
-    localStorage.setItem('userID', newUserRecord.id)
-    res.json({ userID: req.user.id, token: token(jwtToken) })
+    // localStorage.setItem('userID', newUserRecord.id)
+    res.json({ userID: req.user.id, token: jwtToken })
     console.log({ userID: req.user.id, token: jwtToken })
 })
 
@@ -113,18 +112,6 @@ router.get('/protected', requireJwt, (req, res) => {
 
     res.json({ isValid: true, id: req.user.id })
 })
-
-// router.get('/wines', async (req, res) => {
-//     console.log('req.user ', req.user)
-//     const userID = req.user
-//     console.log('get wines userID: ', userID)
-//     try {
-//         let records = await db.favorites.findAll({ where: { userID: `${userID}` } })
-//         return records
-//     } catch (error) {
-//         console.log('error getting wines: ', error)
-//     }
-// })
 
 router.post('/addwine', async (req, res) => {
     const { userID, notes, picture } = req.body
@@ -143,6 +130,17 @@ router.post('/addwine', async (req, res) => {
     }
 })
 
+router.get('/wines', async (req, res) => {
+    const { userID, picture, notes } = req.body
+    try {
+        const favoriteList = await db.favorites.findAll({ where: { userID: userID } })
+        console.log(favoriteList)
+        res.json(favoriteList)
+    } catch (error) {
+        console.log('error displaying wine list: ', error)
+        throw error
+    }
+})
 
 // login api endpoint
 module.exports = router;
