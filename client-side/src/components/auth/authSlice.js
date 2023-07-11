@@ -8,7 +8,8 @@ const initialState = {
     name: "",
     favorites: [],
     error: "",
-    isLoading: false
+    isLoading: false,
+    dataUri:""
 }
 
 const SIGN_UP = "SIGN_UP" //action types
@@ -17,9 +18,13 @@ const CHECK_TOKEN = "CHECK_TOKEN" //action types
 const ADD_WINE = "ADD_WINE"
 const DISPLAY_FAVORITE = "DISPLAY_FAVORITE"
 
+
 // pending, fullfilled, rejected
 
 // {formData: }
+
+
+
 
 export const signUp = createAsyncThunk(SIGN_UP, async (params, thunkAPI) => {
 
@@ -71,6 +76,7 @@ export const addWine = createAsyncThunk(ADD_WINE, async (params, thunkAPI) => {
     }
 })
 
+
 export const displayFavorite = createAsyncThunk(DISPLAY_FAVORITE, async (params, thunkAPI) => {
     try {
         const response = await axios.post('/main', params.formData)
@@ -79,6 +85,7 @@ export const displayFavorite = createAsyncThunk(DISPLAY_FAVORITE, async (params,
         console.log('error displaying wine list: ', error)
     }
 })
+
 
 let authSlice = createSlice({
     name: 'auth',
@@ -91,7 +98,17 @@ let authSlice = createSlice({
             state.profilePic = ""
             state.name = ""
             localStorage.removeItem('token')
+        },
+
+        addDataUri: (state, action)=> {
+            state.dataUri = action.payload
+        },
+
+        removeDataUri: (state)=> {
+            state.dataUri= ""
         }
+    
+
     },
     extraReducers: {
 
@@ -190,7 +207,9 @@ let authSlice = createSlice({
 })
 
 
-export const { signOut } = authSlice.actions
+export const { signOut} = authSlice.actions
+export const {addDataUri}= authSlice.actions
+export const { removeDataUri}= authSlice.actions
 
 export default authSlice.reducer
 

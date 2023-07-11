@@ -4,28 +4,35 @@
   }
   
   .react-html5-camera-photo > video {
-   object-fit: fill;
+    object-fit:cover;
+    border: grey;
+    border-style:solid;
+   border-width: 1%;
+   box-shadow: 5px 5px lightgrey;
+   margin-top: 2%;
   }
-  
+
+    
   .react-html5-camera-photo > img {
-   object-fit: fill;
+   object-fit: cover;
+
   }
   
   .react-html5-camera-photo > .display-error {
-   object-fit: fill;
+   object-fit: coer;
     margin: 0 auto;
   }
   
   @media(max-width:768px){
     .react-html5-camera-photo > video, .react-html5-camera-photo > img {
-       width:100vw;
-       height: 60vh;
+       width:98vw;
+       height: 65vh;
        
      
     } 
      .react-html5-camera-photo > .display-error {
         width:100vw;
-        height:60vh
+        height:55vh
      
     }
   } 
