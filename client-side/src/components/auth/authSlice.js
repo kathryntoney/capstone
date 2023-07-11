@@ -9,7 +9,7 @@ const initialState = {
     favorites: [],
     error: "",
     isLoading: false,
-    dataUri:""
+    dataUri: ""
 }
 
 const SIGN_UP = "SIGN_UP" //action types
@@ -39,12 +39,15 @@ export const signUp = createAsyncThunk(SIGN_UP, async (params, thunkAPI) => {
 })
 
 export const signIn = createAsyncThunk(SIGN_IN, async (params, thunkAPI) => {
-
     let response = await axios.post('/login', params.formData)
     let token = response.data.token
-    console.log(response.data)
+    console.log('signIn thunk', token)
+    let userID = response.data.userID
+    console.log('signIn thunk', userID)
+    console.log(response.data.userID)
+    thunkAPI.dispatch(setUserID(userID))
     // localStorage.setItem('token', JSON.stringify(response.data))
-    return token
+    return { token, userID }
 })
 
 export const checkToken = createAsyncThunk(CHECK_TOKEN, async (params, thunkAPI) => {
@@ -66,6 +69,26 @@ export const checkToken = createAsyncThunk(CHECK_TOKEN, async (params, thunkAPI)
     return { isValid: false }
 })
 
+export const displayFavorite = createAsyncThunk(DISPLAY_FAVORITE, async (params, thunkAPI) => {
+    // console.log('displayFave thunk', userID)
+    // const userID = localStorage.getItem('userID')
+    const userID = localStorage.userID
+    console.log('display fave thunk', userID)
+    const token = localStorage.getItem('token')
+    try {
+        const response = await axios.get(`/wines/${userID}`, {
+            headers: {
+                Authorization: token,
+            },
+        })
+        console.log('display favorite', response)
+        return response.data
+    } catch (error) {
+        console.log('error displaying wine list: ', error)
+        throw error
+    }
+})
+
 export const addWine = createAsyncThunk(ADD_WINE, async (params, thunkAPI) => {
     try {
         const response = await axios.post('/addwine', params.formData)
@@ -77,37 +100,30 @@ export const addWine = createAsyncThunk(ADD_WINE, async (params, thunkAPI) => {
 })
 
 
-export const displayFavorite = createAsyncThunk(DISPLAY_FAVORITE, async (params, thunkAPI) => {
-    try {
-        const response = await axios.post('/main', params.formData)
-        return response.data
-    } catch (error) {
-        console.log('error displaying wine list: ', error)
-    }
-})
-
-
 let authSlice = createSlice({
     name: 'auth',
     initialState,
     reducers: {
 
-        signOut: (state, action) => {
+        setUserID: (state, action) => {
+            state.userID = action.payload
+        },
 
+        signOut: (state, action) => {
             state.token = ""
             state.profilePic = ""
             state.name = ""
             localStorage.removeItem('token')
         },
 
-        addDataUri: (state, action)=> {
+        addDataUri: (state, action) => {
             state.dataUri = action.payload
         },
 
-        removeDataUri: (state)=> {
-            state.dataUri= ""
+        removeDataUri: (state) => {
+            state.dataUri = ""
         }
-    
+
 
     },
     extraReducers: {
@@ -125,7 +141,7 @@ let authSlice = createSlice({
             state.profilePic = payload.profilePic
             state.name = payload.name
             localStorage.setItem('token', payload)
-            localStorage.setItem('signUP fulfilled userID', payload.userID)
+            localStorage.setItem('userID', payload.userID)
         },
         [signUp.rejected]: (state, action) => {
 
@@ -140,12 +156,12 @@ let authSlice = createSlice({
         [signIn.fulfilled]: (state, { payload }) => {  //action.payload
 
             state.isLoading = false
-            state.token = payload
+            state.token = payload.token
             state.userID = payload.userID
             state.profilePic = payload.profilePic || 'https://cdn-icons-png.flaticon.com/512/1942/1942436.png'
             state.name = payload.name || 'Welcome!'
-            localStorage.setItem('token', payload)
-            localStorage.setItem('signIn fulfilled userID', payload.userID)
+            localStorage.setItem('token', payload.token)
+            localStorage.setItem('userID', payload.userID)
         },
         [signIn.rejected]: (state, action) => {
 
@@ -165,6 +181,7 @@ let authSlice = createSlice({
                 // state.profilePic = payload.profilePic || 'https://cdn-icons-png.flaticon.com/512/1942/1942436.png'
                 // state.name = payload.name || 'Welcome!'
                 state.token = localStorage.token
+                state.userID = localStorage.userID
             }
         },
         [checkToken.rejected]: (state, action) => {
@@ -180,6 +197,7 @@ let authSlice = createSlice({
             state.isLoading = false
             if (payload.isValid) {
                 state.token = localStorage.getItem('token', payload)
+                state.userID = localStorage.userID
             }
         },
         [addWine.rejected]: (state, action) => {
@@ -191,13 +209,14 @@ let authSlice = createSlice({
         },
         [displayFavorite.fulfilled]: (state, { payload }) => {
             state.isLoading = false
-            if (payload.isValid) {
-                state.token = localStorage.getItem('token', payload)
-                state.picture = payload.picture
-                console.log(state.picture)
-                state.notes = payload.notes
-                console.log(state.notes)
-            }
+            state.favorites = payload.favoriteList
+            // if (payload.isValid) {
+            //     state.token = localStorage.getItem('token', payload)
+            //     state.picture = payload.picture
+            //     console.log(state.picture)
+            //     state.notes = payload.notes
+            //     console.log(state.notes)
+            // }
         },
         [displayFavorite.rejected]: (state, action) => {
             state.isLoading = false
@@ -207,9 +226,10 @@ let authSlice = createSlice({
 })
 
 
-export const { signOut} = authSlice.actions
-export const {addDataUri}= authSlice.actions
-export const { removeDataUri}= authSlice.actions
+export const { signOut } = authSlice.actions
+export const { addDataUri } = authSlice.actions
+export const { removeDataUri } = authSlice.actions
+export const { setUserID } = authSlice.actions
 
 export default authSlice.reducer
 
