@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react'
-import { Box, Typography, TextField, Button, Link } from '@mui/material'
+import { Box, Typography, Button } from '@mui/material'
 import { styled } from '@mui/material/styles'
 import { useSelector, useDispatch } from 'react-redux'
-import { checkToken } from './auth/authSlice'
+import { useNavigate } from 'react-router-dom'
 
 const StyledTypography = styled(Typography)({
     display: "flex",
@@ -23,20 +23,16 @@ const StyledButton = styled(Button)({
 
 const Main = () => {
     const dispatch = useDispatch()
-    const token = useSelector(state => state.token)
+    const isLoading = (state => state.isLoading)
+    const token = localStorage.token
+    const navigate = useNavigate()
     console.log('main', token)
 
     useEffect(() => {
-        if (localStorage.token) {
-            dispatch(checkToken())
+        if (!isLoading && token) {
+            navigate('/')
         }
-    }, [])
-
-    //   useEffect(() => {
-    //     if (!isLoading && token) {
-    //       navigate('/')
-    //     }
-    //   }, [token])
+    }, [token])
 
     return (
         <>

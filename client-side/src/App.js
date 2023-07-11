@@ -1,6 +1,6 @@
 // import './App.css';
 import Leftbar from './components/Leftbar';
-import Main from './components/Wines'
+import Main from './components/Main'
 import Rightbar from './components/Rightbar';
 import Navbar from './components/Navbar';
 import AddPost from './components/AddWine';

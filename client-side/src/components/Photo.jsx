@@ -2,11 +2,13 @@ import React, { useState,useEffect } from 'react'
 import {useDispatch} from 'react-redux'
 import Camera, { IMAGE_TYPES, FACING_MODES } from 'react-html5-camera-photo';
 import ImagePreview from './ImagePreview';
+
 import { AppBar, Toolbar, Card, CardMedia, Typography, Box, TextField, ButtonGroup,  InputBase, Avatar, Badge, Menu, MenuItem, Modal, Button } from '@mui/material'
 import { styled } from '@mui/material/styles'
 import CameraAltIcon from '@mui/icons-material/CameraAlt';
 import { addDataUri } from './auth/authSlice';
  import '../assets/photo.css'
+
 const Photo = (props) => {
   const [dataUri, setDataUri] = useState('');
   const [open, setOpen] = useState(false)

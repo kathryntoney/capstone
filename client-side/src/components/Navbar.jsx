@@ -42,9 +42,9 @@ const UserBox = styled(Box)(({ theme }) => ({
 
 const Navbar = () => {
   const profilePic = useSelector(state => state.profilePic)
-  console.log('profilePic: ', profilePic)
+  // console.log('profilePic: ', profilePic)
   const name = useSelector(state => state.name)
-  console.log('username: ', name)
+  // console.log('username: ', name)
   // const defaultPic = 'https://cdn-icons-png.flaticon.com/512/1942/1942436.png'
   // const defaultName = 'Welcome!'
   const [open, setOpen] = useState(false)

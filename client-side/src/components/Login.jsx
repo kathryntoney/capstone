@@ -30,19 +30,19 @@ const Login = () => {
     const isLoading = (state => state.isLoading)
     const token = useSelector(state => state.token)
 
-    useEffect(() => {
-        if (localStorage.token) {
-            dispatch(checkToken())
-        }
-    }, [])
+    // useEffect(() => {
+    //     if (localStorage.token) {
+    //         dispatch(checkToken())
+    //     }
+    // }, [])
 
-    useEffect(() => {
-        if (!isLoading && token) {
-            navigate('/')
-        }
-    }, [token])
+    // useEffect(() => {
+    //     if (!isLoading && token) {
+    //         navigate('/')
+    //     }
+    // }, [token, isLoading])
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault()
         let data = {
             formData: {
@@ -51,8 +51,13 @@ const Login = () => {
             }
         }
         console.log(data)
-        dispatch(signIn(data))
-        navigate('/')
+        dispatch(signIn(data)).then(() => {
+            dispatch(checkToken())
+            navigate('/')   
+        })
+        // dispatch(signIn(data)).unwrap().then(() => {
+        //     navigate('/')
+        // })
     }
 
     return (

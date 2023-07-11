@@ -6,6 +6,7 @@ const initialState = {
     userID: "",
     profilePic: "",
     name: "",
+    favorites: [],
     error: "",
     isLoading: false,
     dataUri:""
@@ -15,6 +16,7 @@ const SIGN_UP = "SIGN_UP" //action types
 const SIGN_IN = "SIGN_IN" //action types
 const CHECK_TOKEN = "CHECK_TOKEN" //action types
 const ADD_WINE = "ADD_WINE"
+const DISPLAY_FAVORITE = "DISPLAY_FAVORITE"
 
 
 // pending, fullfilled, rejected
@@ -35,6 +37,7 @@ export const signUp = createAsyncThunk(SIGN_UP, async (params, thunkAPI) => {
     return jwt
 
 })
+
 export const signIn = createAsyncThunk(SIGN_IN, async (params, thunkAPI) => {
 
     let response = await axios.post('/login', params.formData)
@@ -46,16 +49,19 @@ export const signIn = createAsyncThunk(SIGN_IN, async (params, thunkAPI) => {
 
 export const checkToken = createAsyncThunk(CHECK_TOKEN, async (params, thunkAPI) => {
     if (localStorage.token) {
+        let token = localStorage.token
+        console.log('inside checkToken 1', token)
         //api to check if token is valid
         let response = await axios.get('/protected', {
             headers: {
-                'authorization': localStorage.token
+                'authorization': token
             }
         })
-        console.log('inside checkToken', response.data)
-        localStorage.setItem('userID', response.data.id)
+        console.log('inside checkToken 2', response.data)
+        // localStorage.setItem('userID', response.data.id)
+        // localStorage.setItem('token', response.data.token)
+        // return response.data
         return response.data
-        // return { isValid: response.data.isValid, token: localStorage.token }
     }
     return { isValid: false }
 })
@@ -70,6 +76,15 @@ export const addWine = createAsyncThunk(ADD_WINE, async (params, thunkAPI) => {
     }
 })
 
+
+export const displayFavorite = createAsyncThunk(DISPLAY_FAVORITE, async (params, thunkAPI) => {
+    try {
+        const response = await axios.post('/main', params.formData)
+        return response.data
+    } catch (error) {
+        console.log('error displaying wine list: ', error)
+    }
+})
 
 
 let authSlice = createSlice({
@@ -125,7 +140,7 @@ let authSlice = createSlice({
         [signIn.fulfilled]: (state, { payload }) => {  //action.payload
 
             state.isLoading = false
-            state.token = payload.token
+            state.token = payload
             state.userID = payload.userID
             state.profilePic = payload.profilePic || 'https://cdn-icons-png.flaticon.com/512/1942/1942436.png'
             state.name = payload.name || 'Welcome!'
@@ -143,16 +158,14 @@ let authSlice = createSlice({
 
         },
         [checkToken.fulfilled]: (state, { payload }) => {  //action.payload
-
+            console.log('checkToken.fulfilled payload: ', payload)
             state.isLoading = false
             if (payload.isValid) {
                 // state.token = localStorage.token
                 // state.profilePic = payload.profilePic || 'https://cdn-icons-png.flaticon.com/512/1942/1942436.png'
                 // state.name = payload.name || 'Welcome!'
-                state.token = localStorage.getItem('token') || ''
-                state.userID = localStorage.getItem('userID')
+                state.token = localStorage.token
             }
-
         },
         [checkToken.rejected]: (state, action) => {
 
@@ -172,6 +185,23 @@ let authSlice = createSlice({
         [addWine.rejected]: (state, action) => {
             state.isLoading = false;
             state.error = "couldn't add wine"
+        },
+        [displayFavorite.pending]: (state, action) => {
+            state.isLoading = true;
+        },
+        [displayFavorite.fulfilled]: (state, { payload }) => {
+            state.isLoading = false
+            if (payload.isValid) {
+                state.token = localStorage.getItem('token', payload)
+                state.picture = payload.picture
+                console.log(state.picture)
+                state.notes = payload.notes
+                console.log(state.notes)
+            }
+        },
+        [displayFavorite.rejected]: (state, action) => {
+            state.isLoading = false
+            state.error = "couldn't display wines"
         }
     }
 })
@@ -182,3 +212,4 @@ export const {addDataUri}= authSlice.actions
 export const { removeDataUri}= authSlice.actions
 
 export default authSlice.reducer
+
