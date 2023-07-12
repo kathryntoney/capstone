@@ -7,9 +7,17 @@ import AddPost from './components/AddWine';
 import { Box, Stack } from '@mui/material'
 
 
+
+
+
+
+
+
+
 function App() {
 
   return (
+  
     <Box>
       <Navbar />
       <Stack direction="row" spacing={2} justifyContent="space-between">
@@ -19,6 +27,7 @@ function App() {
       </Stack>
       <AddPost />
     </Box>
+   
   );
 }
 

@@ -18,7 +18,8 @@ const StyledButton = styled(Button)({
     flexDirection: 'column',
     fontSize: '20px',
     margin: '5px',
-    width: '80vw'
+    width: '80vw', 
+   color:'#5C374C'
 })
 
 const Main = () => {

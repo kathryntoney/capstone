@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Tesseract from 'tesseract.js'
 import OpenAI from './OpenAI'
-import {Box, Typography, Input, Button }from '@mui/material'
+
 const ariaLabel = { 'aria-label': 'description' };
 
 const MenuReader = () => {
