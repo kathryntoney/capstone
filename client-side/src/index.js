@@ -6,6 +6,11 @@ import Login from './components/Login';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
 import { configureStore } from '@reduxjs/toolkit'
 import { Provider } from 'react-redux'
+import { persistStore, persistReducer } from 'redux-persist';
+import storage from 'redux-persist/lib/storage'
+import { PersistGate } from 'redux-persist/integration/react';
+
+
 import authSlice from './components/auth/authSlice';
 import BaseLayout from './components/layout/BaseLayout';
 import Pairing from './components/Pairing';
@@ -32,14 +37,23 @@ const theme = createTheme({
     
   },
 });
-let store = configureStore({
-  reducer: authSlice
-})
+const persistConfig = {
+  key: 'root',
+  storage,
+};
+const persistedReducer = persistReducer(persistConfig, authSlice);
+const store = configureStore({
+  reducer: persistedReducer,
+});
+const persistor = persistStore(store);
+
+export { store, persistor };
 
 ReactDOM.render(
 <ThemeProvider theme={theme}>
   <React.StrictMode>
     <Provider store={store}>
+      <PersistGate loading={null} persistor={persistor}>
       <Router>
         <BaseLayout>
           <Routes>
@@ -51,6 +65,7 @@ ReactDOM.render(
           </Routes>
         </BaseLayout>
       </Router>
+      </PersistGate>
     </Provider>
   </React.StrictMode>
   </ThemeProvider>,
