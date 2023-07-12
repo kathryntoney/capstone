@@ -2,10 +2,24 @@ import { useState, useEffect } from "react"
 import {useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import {Box, Typography,  Button, Card, CardContent, ButtonGroup,  TextField, Container } from '@mui/material'
+
+import { createTheme, ThemeProvider } from '@mui/material/styles'
+
 import {removeDataUri}  from './auth/authSlice';
-import "../assets/css/openAI.css"
+
 const ariaLabel = { 'aria-label': 'description' };
 const { Configuration, OpenAIApi } = require("openai");
+
+
+const theme = createTheme({
+  palette: {
+    primary: {
+  
+      main:'#5C374C' ,
+    },
+    
+  },
+});
 
 const OpenAI = ({ocr}) => {
   const configuration = new Configuration({
@@ -20,7 +34,7 @@ const OpenAI = ({ocr}) => {
   const dispatch = useDispatch()
   const dataUri = useSelector(state=> state.dataUri.dataUri)
 const navigate = useNavigate()
-  
+ 
 
   const handleBack = () => {
     dispatch(removeDataUri())
@@ -54,6 +68,8 @@ const navigate = useNavigate()
   };
   return(
     <>
+    <ThemeProvider theme={theme}>
+
     <Container>
 
     <Card sx={{paddingBottom:"5%", backgroundColor:"#fdd5c1"}}>
@@ -65,20 +81,22 @@ const navigate = useNavigate()
           type="search"
           size="normal"
           variant="standard"
-          color="secondary"
+          
            sx={{marginLeft:"1%", color:"#5C374C"}}
             inputProps={ariaLabel} 
             onChange={(e)=>setDish(e.target.value)}
-        />
+            />
+
+
+    <Button color="primary" onClick={handleSubmit} size="medium" variant='contained' aria-label='outlined button group' >submit</Button>
    
-    <Button id="button" sx={{backgroundColor:"#5C374C"}} onClick={handleSubmit} size="medium" variant='contained' aria-label='outlined button group' >submit</Button>
         </Card>
     </Container>
 
 <br/>
 <br/>
     {
-     (apiResponse)?
+      (apiResponse)?
 <Container>
 
       <Box>
@@ -107,11 +125,11 @@ const navigate = useNavigate()
   </Box>
   <br/>
   <Box>
+    <Card sx={{backgroundColor:"#fdd5c1"}}>
     <ButtonGroup>
-      <Button sx={{backgroundColor:"#5C374C" }} variant='contained' aria-label='outlined button group' onClick={handleBack}>Back to Camera</Button>
+      <Button sx={{backgroundColor:"#5C374C", marginTop:"1.5%"}} variant='contained' aria-label='outlined button group' onClick={handleBack}>Back to Camera</Button>
      
     </ButtonGroup>
-    <Card sx={{backgroundColor:"#fdd5c1"}}>
 
     <Typography sx={{color:"#5C374C"}} >
       <br/>
@@ -121,6 +139,7 @@ const navigate = useNavigate()
     </Container>: <Box></Box>
     }
 
+    </ThemeProvider>
     </>
   );
 };

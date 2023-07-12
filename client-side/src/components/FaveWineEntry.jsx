@@ -28,25 +28,25 @@ const FaveWineEntry = ({ picture, notes, userID }) => {
     if (userID && userID === localStorage.getItem('userID')) {
         content = (
             <>
-                <Card sx={{ margin: 5 }}>
+                <Card sx={{ margin: 5, backgroundColor:"#fdd5c1"}}>
                     <CardMedia
                         component="img"
                         height="300"
                         image={picture}
                         alt="wine picture"
                     />
-                    <CardContent>
-                        <Typography variant="body2" color="text.secondary">
+                    <CardContent >
+                        <Typography variant="body2" color="primary">
                             {notes}
                         </Typography>
                     </CardContent>
                     <CardActions disableSpacing>
                         <IconButton aria-label="add to favorites">
-                            <Checkbox icon={<FavoriteBorder />} checkedIcon={<Favorite sx={{ color: '#CE6A85' }} />} />
+                            <Checkbox icon={<FavoriteBorder />} checkedIcon={<Favorite sx={{ color: 'primary' }} />} />
                         </IconButton>
-                        <IconButton aria-label="share">
+                        {/* <IconButton aria-label="share">
                             <Share />
-                        </IconButton>
+                        </IconButton> */}
                     </CardActions>
                 </Card>
             </>

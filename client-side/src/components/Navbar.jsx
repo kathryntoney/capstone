@@ -52,7 +52,7 @@ const Navbar = () => {
   const dispatch = useDispatch()
 
   const handlePairing = () => {
-    navigate('/photo')
+    navigate('/pairing')
     setOpen(false)
   }
 
@@ -76,7 +76,7 @@ const Navbar = () => {
   return (
     <AppBar position="sticky">
       <StyledToolbar>
-        <Typography className='navbar-title' variant='span' sx={{ fontFamily: "'Nunito', sans - serif", fontSize: '25px', fontWeight: 'bold', color: '#FAA275', justifyContent: 'center', alignItems: 'center' }}><WineBar />Pocket Somm</Typography>
+        <Typography className='navbar-title' variant='span'  sx={{  fontSize: '25px', fontWeight: 'bold', color: '#FAA275', justifyContent: 'center', alignItems: 'center' }}><WineBar />Pocket Somm</Typography>
         <Icons>
           <Badge sx={{ ml: '5px' }}>
             <Avatar onClick={e => setOpen(true)} src={profilePic || ""} />
