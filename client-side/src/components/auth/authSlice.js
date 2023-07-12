@@ -167,7 +167,6 @@ let authSlice = createSlice({
 
         },
         [signIn.fulfilled]: (state, { payload }) => {  //action.payload
-
             state.isLoading = false
             state.token = payload.token
             state.userID = payload.userID
