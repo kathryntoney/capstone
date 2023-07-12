@@ -1,6 +1,8 @@
 import React from 'react'
 import Navbar from '../Navbar'
+import Footer from '../Footer'
 import { useSelector } from 'react-redux'
+
 
 const BaseLayout = (props) => {
     const token = useSelector(state => state.token)
@@ -11,6 +13,7 @@ const BaseLayout = (props) => {
             <div>
                 {props.children}
             </div>
+            <Footer />
         </>
     )
 }
