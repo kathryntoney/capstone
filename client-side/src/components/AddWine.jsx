@@ -92,17 +92,20 @@ const AddWine = () => {
                         <Avatar src={profilePic}
                             sx={{ width: 30, height: 30 }} />
                         <Typography fontWeight={500} variant='span'>{name}</Typography>
+                        
                     </Box>
                     <TextField
-                        sx={{ width: '100%',backgroundColor:"#fdd5c1"  }}
+                        sx={{ width: '100%',backgroundColor:"#fdd5c1", padding:"2%"  }}
                         id='standard-multiline-static'
                         rows={4}
                         placeholder="Enter notes about your wine here"
                         variant='standard'
                         onChange={(e) => setNotes(e.target.value)}
                     />
-                    <input type='file' onChange={(e) => { setImageSelected(e.target.files[0]) }}></input>
-                    <ButtonGroup variant='contained' aria-label='outlined primary button group' fullWidth>
+                    <input style={{padding:"3%"}}  type='file' onChange={(e) => { setImageSelected(e.target.files[0]) }}></input>
+                    
+                    <ButtonGroup  variant='contained' aria-label='outlined button group' fullWidth>
+                     
                         <Button onClick={handleSubmit}>Submit</Button>
                         <Button onClick={e => setOpen(false)}>Cancel</Button>
                     </ButtonGroup>

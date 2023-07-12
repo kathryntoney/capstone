@@ -52,7 +52,7 @@ const Navbar = () => {
   const dispatch = useDispatch()
 
   const handlePairing = () => {
-    navigate('/photo')
+    navigate('/pairing')
     setOpen(false)
   }
 
