@@ -30,7 +30,12 @@ const token = (userRecord) => {
     console.log('jwt user record:', userRecord);
     //creates a jwt
 
-    return jwt.encode({ sub: userRecord.id, iat: timestamp }, secrets.secrets)
+    return jwt.encode({
+        sub: userRecord.id,
+        profilePic: userRecord.profilePic,
+        name: userRecord.name,
+        iat: timestamp
+    }, secrets.secrets)
 }
 
 
@@ -69,7 +74,12 @@ router.post('/registration', async (req, res) => {
             // localStorage.setItem('userID', newUserRecord.id)
             // return jwt 
             console.log({ userID: req.user.id, token: jwtToken })
-            res.json({ userID: newUserRecord.id, token: jwtToken })
+            res.json({
+                userID: newUserRecord.id,
+                profilePic: newUserRecord.profilePic,
+                name: newUserRecord.name,
+                token: jwtToken
+            })
         }
         else {
 
@@ -97,10 +107,13 @@ router.post('/registration', async (req, res) => {
 router.post('/login', requireLogin, (req, res) => {
     console.log('creating token:', req.user.dataValues)
     let jwtToken = token(req.user.dataValues)
-    // localStorage.setItem('token', jwtToken)
-    // localStorage.setItem('userID', newUserRecord.id)
-    res.json({ userID: req.user.id, token: jwtToken })
-    console.log({ userID: req.user.id, token: jwtToken })
+    res.json({
+        userID: req.user.id,
+        profilePic: req.user.profilePic,
+        name: req.user.name,
+        token: jwtToken
+    })
+    console.log({ userID: req.user.id, profilePic: req.user.profilePic, name: req.user.name, token: jwtToken })
 })
 
 
@@ -111,6 +124,19 @@ router.post('/login', requireLogin, (req, res) => {
 router.get('/protected', requireJwt, (req, res) => {
 
     res.json({ isValid: true, id: req.user.id })
+})
+
+router.get('/wines/:userID', requireJwt, async (req, res) => {
+    try {
+        console.log('req.params', req.params)
+        let { userID } = req.params
+        let records = await db.favorites.findAll({ where: { userID } })
+        console.log('wine list:', records)
+        res.json({ favoriteList: records })
+    } catch (error) {
+        console.log('error displaying wine list: ', error)
+        throw error
+    }
 })
 
 router.post('/addwine', async (req, res) => {
@@ -130,17 +156,6 @@ router.post('/addwine', async (req, res) => {
     }
 })
 
-router.get('/wines', async (req, res) => {
-    const { userID, picture, notes } = req.body
-    try {
-        const favoriteList = await db.favorites.findAll({ where: { userID: userID } })
-        console.log(favoriteList)
-        res.json(favoriteList)
-    } catch (error) {
-        console.log('error displaying wine list: ', error)
-        throw error
-    }
-})
 
 // login api endpoint
 module.exports = router;

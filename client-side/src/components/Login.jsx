@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Box, Typography, TextField, Modal, Button, Container, Card } from '@mui/material'
 import { styled } from '@mui/material/styles'
@@ -30,18 +30,6 @@ const Login = () => {
     const isLoading = (state => state.isLoading)
     const token = useSelector(state => state.token)
 
-    // useEffect(() => {
-    //     if (localStorage.token) {
-    //         dispatch(checkToken())
-    //     }
-    // }, [])
-
-    // useEffect(() => {
-    //     if (!isLoading && token) {
-    //         navigate('/')
-    //     }
-    // }, [token, isLoading])
-
     const handleSubmit = async (e) => {
         e.preventDefault()
         let data = {
@@ -51,13 +39,10 @@ const Login = () => {
             }
         }
         console.log(data)
-        dispatch(signIn(data)).then(() => {
-            dispatch(checkToken())
-            navigate('/')   
+        dispatch(signIn(data)).then((response) => {
+            dispatch(checkToken(response.payload))
+            navigate('/')
         })
-        // dispatch(signIn(data)).unwrap().then(() => {
-        //     navigate('/')
-        // })
     }
 
     return (
