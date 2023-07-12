@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react"
 import {useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
-import {Box, Typography,  Button, Card, CardContent, ButtonGroup,  TextField, Container } from '@mui/material'
+import {Box, Typography,  Button, Card, CardContent, ButtonGroup,  TextField, Container, CircularProgress } from '@mui/material'
 
 import { createTheme, ThemeProvider } from '@mui/material/styles'
 
@@ -31,6 +31,7 @@ const OpenAI = ({ocr}) => {
   const [apiResponse, setApiResponse] = useState("");
   const [loading, setLoading] = useState(false);
   const [dish, setDish] = useState("")
+  const [loadingProgress, setLoadingProgress] = useState(false)
   const dispatch = useDispatch()
   const dataUri = useSelector(state=> state.dataUri.dataUri)
 const navigate = useNavigate()
@@ -45,12 +46,13 @@ const navigate = useNavigate()
   const handleSubmit = async () => {
     
     setLoading(true);
+    setLoadingProgress(true)
    
     try {
        
       const result = await openai.createCompletion({
         model: "text-davinci-003",
-        prompt: `Given these wines: ${ocr}. Which 2 would you recommend if I am eating ${dish}?`,
+        prompt: `Given these wines: ${ocr}. Which 2  would you recommend if I am eating ${dish}?`,
         temperature: 0.7,
         max_tokens: 2000,
         
@@ -63,7 +65,7 @@ const navigate = useNavigate()
     }
    
       setLoading(false);
-    
+      setLoadingProgress(false)
     
   };
   return(
@@ -81,20 +83,27 @@ const navigate = useNavigate()
           type="search"
           size="normal"
           variant="standard"
+          color="primary"
           
            sx={{marginLeft:"1%", color:"#5C374C"}}
             inputProps={ariaLabel} 
             onChange={(e)=>setDish(e.target.value)}
             />
 
-
-    <Button color="primary" onClick={handleSubmit} size="medium" variant='contained' aria-label='outlined button group' >submit</Button>
+{
+  (loadingProgress)?
+ 
+  <CircularProgress  />
+: <Button color="primary" onClick={handleSubmit} size="medium" variant='contained' aria-label='outlined button group' >submit</Button>
+}
+    
    
         </Card>
     </Container>
 
 <br/>
 <br/>
+
     {
       (apiResponse)?
 <Container>

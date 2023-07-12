@@ -47,7 +47,7 @@ const Login = () => {
 
     return (
         <Container>
-            <Card sx={{backgroundColor:"#fdd5c1"}}>
+            <Card sx={{backgroundColor:"#fdd5c1", marginTop:"20%" }}>
 
             <Typography variant='h5' sx={{ fontFamily:"", display: 'flex', justifyContent: 'center', marginTop: '10px', color:"#5C374C" }}>Login:</Typography>
             <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>

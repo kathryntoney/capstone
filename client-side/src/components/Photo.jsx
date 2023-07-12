@@ -48,6 +48,7 @@ const navigate = useNavigate()
                 onClose={e => setOpen(false)}
                 aria-labelledby="modal-modal-title"
                 aria-describedby="modal-modal-description"
+                sx={{marginTop:"40%"}}
             >
                 <Box width={350} height={280} bgcolor="#fdd5c1 " p={3} borderRadius={5}>
                    <CameraAltIcon style={{color:'#5C374C'}} fontSize='large'/>
