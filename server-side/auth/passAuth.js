@@ -92,16 +92,16 @@ let jwtLogin = new JwtStrategy(jwtOptions, async (payload, done) => {
         let userID = payload.sub;
         console.log('userID: ', userID)
         let user = await db.users.findByPk(userID) // {}  or null
-        console.log('checkpoint 2', user)
+        console.log('checkpoint 2 jwt strat')
         if (user) {
-            console.log('checkpoint 3')
+            console.log('checkpoint 3 jwt strat')
             return done(null, user)  // place the user object on the req.user
             // req.user = {id, email, password, createAt, updatedAt}
         }
         else {
 
             // no use found
-            console.log('checkpoint 4')
+            console.log('checkpoint 4 jwt strat')
             return done(null, false) // not putting anythig on the req
         }
 
