@@ -74,16 +74,9 @@ export const checkToken = createAsyncThunk(CHECK_TOKEN, async (params, thunkAPI)
 })
 
 export const displayFavorite = createAsyncThunk(DISPLAY_FAVORITE, async (params, thunkAPI) => {
-    // console.log('displayFave thunk', userID)
-    // const userID = localStorage.getItem('userID')
     const userID = localStorage.userID
     console.log('display fave thunk', userID)
-    // const token = localStorage.getItem('token')
     const token = localStorage.token
-    const profilePic = localStorage.profilePic
-    console.log('display fave thunk', profilePic)
-    const name = localStorage.name
-    console.log('display fave thunk', name)
     try {
         const response = await axios.get(`/wines/${userID}`, {
             headers: {
@@ -131,8 +124,17 @@ let authSlice = createSlice({
 
         removeDataUri: (state) => {
             state.dataUri = ""
-        }
-
+        },
+        setNavbar: (state, action) => {
+            state.profilePic = action.payload.profilePic
+            state.name = action.payload.name
+            state.token = action.payload.token
+            state.userID = action.payload.userID
+            localStorage.setItem('token', action.payload.token)
+            localStorage.setItem('profilePic', action.payload.profilePic)
+            localStorage.setItem('name', action.payload.name)
+            localStorage.setItem('userID', action.payload.userID)
+        },
 
     },
     extraReducers: {
@@ -149,7 +151,7 @@ let authSlice = createSlice({
             state.userID = payload.userID
             state.profilePic = payload.profilePic
             state.name = payload.name
-            localStorage.setItem('token', payload)
+            localStorage.setItem('token', payload.token)
             localStorage.setItem('userID', payload.userID)
             localStorage.setItem('profilePic', payload.profilePic)
             localStorage.setItem('name', payload.name)
@@ -190,14 +192,14 @@ let authSlice = createSlice({
             console.log('checkToken.fulfilled payload: ', payload)
             state.isLoading = false
             if (payload.isValid) {
-                // state.profilePic = payload.profilePic || 'https://cdn-icons-png.flaticon.com/512/1942/1942436.png'
-                // state.name = payload.name || 'Welcome!'
                 state.token = localStorage.token
                 state.userID = localStorage.userID
                 state.profilePic = localStorage.profilePic
                 state.name = localStorage.name
-                localStorage.setItem('profilePic', payload.profilePic)
-                localStorage.setItem('name', payload.name)
+                // localStorage.setItem('token', payload.token)
+                // localStorage.setItem('userID', payload.userID)
+                // localStorage.setItem('profilePic', payload.profilePic)
+                // localStorage.setItem('name', payload.name)
             }
         },
         [checkToken.rejected]: (state, action) => {
@@ -226,13 +228,6 @@ let authSlice = createSlice({
         [displayFavorite.fulfilled]: (state, { payload }) => {
             state.isLoading = false
             state.favorites = payload.favoriteList
-            // if (payload.isValid) {
-            //     state.token = localStorage.getItem('token', payload)
-            //     state.picture = payload.picture
-            //     console.log(state.picture)
-            //     state.notes = payload.notes
-            //     console.log(state.notes)
-            // }
         },
         [displayFavorite.rejected]: (state, action) => {
             state.isLoading = false
@@ -246,6 +241,7 @@ export const { signOut } = authSlice.actions
 export const { addDataUri } = authSlice.actions
 export const { removeDataUri } = authSlice.actions
 export const { setUserID } = authSlice.actions
+export const { setNavbar } = authSlice.actions
 
 export default authSlice.reducer
 
