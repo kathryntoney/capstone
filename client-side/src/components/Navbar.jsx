@@ -75,7 +75,6 @@ const Navbar = () => {
     <AppBar position="sticky">
       <StyledToolbar>
         <Typography className='navbar-title' variant='span'  sx={{  fontSize: '25px', fontWeight: 'bold', color: '#FAA275', justifyContent: 'center', alignItems: 'center' }}><WineBar />Pocket Somm</Typography>
-        <Search sx={{ display: { xs: "none", sm: "block" } }}><InputBase placeholder='search' /></Search>
         <Icons>
           <Badge sx={{ ml: '5px' }}>
             <Avatar onClick={e => setOpen(true)} src={profilePic || ""} />

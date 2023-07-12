@@ -4,14 +4,31 @@ import { useNavigate } from 'react-router-dom'
 import { Tooltip, Fab, Modal, Box, Typography, Avatar, TextField, Stack, ButtonGroup, Button } from '@mui/material'
 import { styled } from '@mui/material/styles'
 import AddIcon from '@mui/icons-material/Add';
+import { createTheme, ThemeProvider } from '@mui/material/styles'
 import Axios from 'axios'
 import { addWine } from './auth/authSlice'
 
-
+const theme = createTheme({
+    palette: {
+      primary: {
+    
+        main:'#5C374C' ,
+      },
+      secondary:{
+        main:'#FF8C61'
+      },
+      info:{
+        main:'#fdd5c1 '
+      }
+      
+    },
+  });
+  
 const StyledModal = styled(Modal)({
     display: 'flex',
     alignItems: "center",
-    justifyContent: 'center'
+    justifyContent: 'center',
+    backgroundColor: '#fdd5c1'
 })
 
 // const UserBox = styled(Box)({
@@ -63,8 +80,9 @@ const AddWine = () => {
 
     return (
         <>
+        <ThemeProvider theme={theme}>
             <Tooltip onClick={e => setOpen(true)} title='New Post' sx={{ position: 'fixed', bottom: 20, left: { xs: "calc(50% - 25px)", md: 30 } }}>
-                <Fab color='primary' aria-label='add'>
+                <Fab color='secondary' aria-label='add'>
                     <AddIcon />
                 </Fab>
             </Tooltip>
@@ -73,16 +91,17 @@ const AddWine = () => {
                 onClose={e => setOpen(false)}
                 aria-labelledby="modal-modal-title"
                 aria-describedby="modal-modal-description"
+                
             >
-                <Box width={400} height={280} bgcolor="white" p={3} borderRadius={5}>
-                    <Typography variant='h6' color='gray' textAlign='center'>Create Post</Typography>
+                <Box width={400} height={280} bgcolor="#fdd5c1" p={3} borderRadius={5}>
+                    <Typography variant='h6' color='primary' textAlign='center'>Create Post</Typography>
                     <Box>
                         <Avatar src='https://media.licdn.com/dms/image/D5635AQF5L1U9InOswA/profile-framedphoto-shrink_200_200/0/1680273766602?e=1688677200&v=beta&t=ItAk7-TVMDb0VjWon5r422sFqkWOrdaLJ77REI-wD_w'
                             sx={{ width: 30, height: 30 }} />
-                        <Typography fontWeight={500} variant='span'>Katie Toney</Typography>
+                       
                     </Box>
                     <TextField
-                        sx={{ width: '100%' }}
+                        sx={{ width: '100%',backgroundColor:"#fdd5c1"  }}
                         id='standard-multiline-static'
                         rows={4}
                         placeholder="Enter notes about your wine here"
@@ -96,6 +115,7 @@ const AddWine = () => {
                     </ButtonGroup>
                 </Box>
             </StyledModal>
+            </ThemeProvider>
         </>
     )
 }

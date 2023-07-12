@@ -14,13 +14,30 @@ import DisplayWines from './components/DisplayWines';
 import Main from './components/Main';
 import RequireAuth from './components/RequireAuth';
 import MenuReader from './components/MenuReader';
+import { createTheme, ThemeProvider } from '@mui/material/styles'
 
+
+const theme = createTheme({
+  palette: {
+    primary: {
+  
+      main:'#5C374C' , //dark purple
+    },
+    secondary:{
+      main:'#FF8C61' //atomic tangerine
+    },
+    info:{
+      main:'#fdd5c1 ' //light peach
+    }
+    
+  },
+});
 let store = configureStore({
   reducer: authSlice
 })
 
 ReactDOM.render(
-
+<ThemeProvider theme={theme}>
   <React.StrictMode>
     <Provider store={store}>
       <Router>
@@ -35,7 +52,8 @@ ReactDOM.render(
         </BaseLayout>
       </Router>
     </Provider>
-  </React.StrictMode>,
+  </React.StrictMode>
+  </ThemeProvider>,
   document.getElementById('root')
 );
 
