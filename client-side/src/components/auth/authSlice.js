@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import axios from 'axios'
+import { useDispatch } from 'react-redux'
 
 const initialState = {
     token: "",
@@ -18,6 +19,7 @@ const CHECK_TOKEN = "CHECK_TOKEN" //action types
 const ADD_WINE = "ADD_WINE"
 const DISPLAY_FAVORITE = "DISPLAY_FAVORITE"
 const SIGN_OUT = "SIGN_OUT"
+const DELETE_FAVORITE = "DELETE_FAVORITE"
 
 
 // pending, fullfilled, rejected
@@ -101,6 +103,18 @@ export const addWine = createAsyncThunk(ADD_WINE, async (params, thunkAPI) => {
     }
 })
 
+export const deleteFavorite = createAsyncThunk(DELETE_FAVORITE, async ({ favoriteID, userID }, thunkAPI) => {
+    try {
+        console.log('inside delete favorite try')
+        const response = await axios.delete(`/favorites/${favoriteID}`)
+        console.log(response)
+        return response.data
+    } catch (error) {
+        console.log('could not delete favorite', error)
+        throw error
+    }
+})
+
 let authSlice = createSlice({
     name: 'auth',
     initialState,
@@ -110,13 +124,16 @@ let authSlice = createSlice({
             state.userID = action.payload
         },
 
-        signOut: (state, action) => {
-            state.token = ""
-            state.profilePic = ""
-            state.name = ""
-            state.userID = ""
-            localStorage.removeItem('token')
-        },
+        // signOut: (state, action) => {
+        //     // state.token = ""
+        //     // state.profilePic = ""
+        //     // state.name = ""
+        //     // state.userID = ""
+        //     // localStorage.removeItem('token')
+        //     localStorage.clear()
+        //     return initialState
+        // },
+        signOut: () => initialState,
 
         addDataUri: (state, action) => {
             state.dataUri = action.payload
@@ -135,6 +152,10 @@ let authSlice = createSlice({
             localStorage.setItem('name', action.payload.name)
             localStorage.setItem('userID', action.payload.userID)
         },
+        removeFavorite: (state, action) => {
+            const favoriteID = action.payload
+            state.favorites = state.favorites.filter(favorite => favorite.id !== favoriteID)
+        }
 
     },
     extraReducers: {
@@ -231,6 +252,18 @@ let authSlice = createSlice({
         [displayFavorite.rejected]: (state, action) => {
             state.isLoading = false
             state.error = "couldn't display wines"
+        },
+        [deleteFavorite.pending]: (state) => {
+            state.isLoading = true
+        },
+        [deleteFavorite.fulfilled]: (state, { payload }) => {
+            state.isLoading = false
+            // state.favorites = payload.favoriteList
+            state.favorites = payload
+        },
+        [deleteFavorite.rejected]: (state, action) => {
+            state.isLoading = false
+            state.error = "couldn't delete favorite"
         }
     }
 })
@@ -241,6 +274,7 @@ export const { addDataUri } = authSlice.actions
 export const { removeDataUri } = authSlice.actions
 export const { setUserID } = authSlice.actions
 export const { setNavbar } = authSlice.actions
+export const { removeFavorite } = authSlice.actions
 
 export default authSlice.reducer
 
