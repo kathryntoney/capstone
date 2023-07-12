@@ -1,12 +1,12 @@
 import '../index.css';
 import React, { useState } from 'react'
-import { useSelector } from 'react-redux'
-import { AppBar, Toolbar, Typography, Box, InputBase, Avatar, Badge, Menu, MenuItem } from '@mui/material'
+import { useSelector, useDispatch } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
+import { AppBar, Toolbar, Typography, Box, Avatar, Badge, Menu, MenuItem } from '@mui/material'
 import { styled } from '@mui/material/styles'
 import WineBar from '@mui/icons-material/WineBar';
-// import { borderRadius } from '@mui/system'
-import Favorite from '@mui/icons-material/Favorite';
-import Axios from 'axios'
+
+import { signOut } from './auth/authSlice';
 
 const StyledToolbar = styled(Toolbar)({
   display: "flex",
@@ -42,29 +42,47 @@ const UserBox = styled(Box)(({ theme }) => ({
 
 const Navbar = () => {
   const profilePic = useSelector(state => state.profilePic)
-  // console.log('profilePic: ', profilePic)
+  console.log('profilePic: ', profilePic)
   const name = useSelector(state => state.name)
-  // console.log('username: ', name)
-  // const defaultPic = 'https://cdn-icons-png.flaticon.com/512/1942/1942436.png'
-  // const defaultName = 'Welcome!'
+  console.log('username: ', name)
   const [open, setOpen] = useState(false)
+  const navigate = useNavigate()
+  const dispatch = useDispatch()
+
+  const handlePairing = () => {
+    navigate('/photo')
+    setOpen(false)
+  }
+
+  const handleWines = () => {
+    navigate('/wines')
+    setOpen(false)
+  }
+
+  const handleSignout = () => {
+    dispatch(signOut())
+    localStorage.removeItem('token')
+    localStorage.removeItem('userID')
+    localStorage.removeItem('profilePic')
+    localStorage.removeItem('name')
+    navigate('/login')
+    setOpen(false)
+  }
+
+
 
   return (
     <AppBar position="sticky">
       <StyledToolbar>
         <Typography className='navbar-title' variant='span' sx={{ fontFamily: "'Nunito', sans - serif", fontSize: '25px', fontWeight: 'bold', color: '#FAA275', justifyContent: 'center', alignItems: 'center' }}><WineBar />Pocket Somm</Typography>
-        <Search sx={{ display: { xs: "none", sm: "block" } }}><InputBase placeholder='search' /></Search>
         <Icons>
-          <Badge>
-            <Favorite />
-          </Badge>
           <Badge sx={{ ml: '5px' }}>
-            <Avatar onClick={e => setOpen(true)} src={profilePic} />
+            <Avatar onClick={e => setOpen(true)} src={profilePic || ""} />
           </Badge>
         </Icons>
         <UserBox onClick={e => setOpen(true)}>
-          <Avatar src={profilePic} />
-          <Typography variant="span">{name}</Typography>
+          <Avatar src={profilePic || ""} />
+          <Typography sx={{ display: { xs: "none", sm: "block" } }} variant="span">{name || ""}</Typography>
         </UserBox>
       </StyledToolbar>
       <Menu
@@ -81,9 +99,9 @@ const Navbar = () => {
           horizontal: 'right'
         }}
       >
-        <MenuItem >Profile</MenuItem>
-        <MenuItem >My Wines</MenuItem>
-        <MenuItem >Logout</MenuItem>
+        <MenuItem onClick={handlePairing} >Pairing</MenuItem>
+        <MenuItem onClick={handleWines} >My Wines</MenuItem>
+        <MenuItem onClick={handleSignout} >Logout</MenuItem>
       </Menu>
     </AppBar>
   )

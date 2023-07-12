@@ -30,7 +30,12 @@ const token = (userRecord) => {
     console.log('jwt user record:', userRecord);
     //creates a jwt
 
-    return jwt.encode({ sub: userRecord.id, iat: timestamp }, secrets.secrets)
+    return jwt.encode({
+        sub: userRecord.id,
+        profilePic: userRecord.profilePic,
+        name: userRecord.name,
+        iat: timestamp
+    }, secrets.secrets)
 }
 
 
@@ -69,7 +74,12 @@ router.post('/registration', async (req, res) => {
             // localStorage.setItem('userID', newUserRecord.id)
             // return jwt 
             console.log({ userID: req.user.id, token: jwtToken })
-            res.json({ userID: newUserRecord.id, token: jwtToken })
+            res.json({
+                userID: newUserRecord.id,
+                profilePic: newUserRecord.profilePic,
+                name: newUserRecord.name,
+                token: jwtToken
+            })
         }
         else {
 
@@ -95,10 +105,15 @@ router.post('/registration', async (req, res) => {
 // (passport local strategy)
 
 router.post('/login', requireLogin, (req, res) => {
-    // console.log('creating token:', req.user.dataValues)
+    console.log('creating token:', req.user.dataValues)
     let jwtToken = token(req.user.dataValues)
-    res.json({ userID: req.user.id, token: jwtToken })
-    console.log({ userID: req.user.id, token: jwtToken })
+    res.json({
+        userID: req.user.id,
+        profilePic: req.user.profilePic,
+        name: req.user.name,
+        token: jwtToken
+    })
+    console.log({ userID: req.user.id, profilePic: req.user.profilePic, name: req.user.name, token: jwtToken })
 })
 
 
@@ -113,9 +128,8 @@ router.get('/protected', requireJwt, (req, res) => {
 
 router.get('/wines/:userID', requireJwt, async (req, res) => {
     try {
-        let {userID} = req.params
-        console.log('wines router', userID)
-        console.log('router get wines')
+        console.log('req.params', req.params)
+        let { userID } = req.params
         let records = await db.favorites.findAll({ where: { userID } })
         console.log('wine list:', records)
         res.json({ favoriteList: records })

@@ -57,7 +57,8 @@ const AddWine = () => {
         console.log('dataset: ', data)
         setOpen(false)
         dispatch(addWine({ formData: data }))
-        navigate('/wines')
+        // navigate('/wines')
+        window.location.reload()
     }
 
     return (

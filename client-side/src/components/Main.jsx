@@ -28,12 +28,18 @@ const Main = () => {
     // const token = (state => state.token)
     const token = localStorage.token
     const userID = localStorage.getItem('userID')
+    const profilePic = localStorage.getItem('profilePic')
+    const name = localStorage.getItem('name')
     console.log('main', userID)
     const navigate = useNavigate()
     console.log('main', token)
 
     useEffect(() => {
         if (!isLoading && token) {
+            let token = localStorage.token
+            let userID = localStorage.userID
+            let profilePic = localStorage.profilePic
+            let name = localStorage.name
             dispatch(setUserID(userID))
         }
     }, [])

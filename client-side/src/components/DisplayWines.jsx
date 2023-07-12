@@ -12,9 +12,11 @@ const Wines = () => {
     console.log('wines', token)
     const favoriteList = useSelector(state => state.favorites)
     console.log('favorite list: ', favoriteList)
-    const userID = localStorage.getItem('userID')
-    // const userID = useSelector(state => state.userID)
+    // const userID = localStorage.getItem('userID')
+    const userID = useSelector(state => state.userID)
     console.log(userID)
+    const profilePic = useSelector(state => state.profilePic)
+    const name = useSelector(state => state.name)
     // console.log('userID: ', userID)
     // const endpoint = '/wines' + userID
     const dispatch = useDispatch()
@@ -25,7 +27,7 @@ const Wines = () => {
             try {
                 await dispatch(checkToken());
                 console.log('inside fetch data', userID)
-                await dispatch(displayFavorite(userID));
+                await dispatch(displayFavorite(userID, profilePic, name));
             } catch (error) {
                 console.log("couldn't fetch data")
             }

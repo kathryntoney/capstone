@@ -17,6 +17,7 @@ const SIGN_IN = "SIGN_IN" //action types
 const CHECK_TOKEN = "CHECK_TOKEN" //action types
 const ADD_WINE = "ADD_WINE"
 const DISPLAY_FAVORITE = "DISPLAY_FAVORITE"
+const SIGN_OUT = "SIGN_OUT"
 
 
 // pending, fullfilled, rejected
@@ -44,10 +45,16 @@ export const signIn = createAsyncThunk(SIGN_IN, async (params, thunkAPI) => {
     console.log('signIn thunk', token)
     let userID = response.data.userID
     console.log('signIn thunk', userID)
-    console.log(response.data.userID)
-    thunkAPI.dispatch(setUserID(userID))
-    // localStorage.setItem('token', JSON.stringify(response.data))
-    return { token, userID }
+    // thunkAPI.dispatch(setUserID(userID))
+    let profilePic = response.data.profilePic
+    console.log('signIn thunk', profilePic)
+    let name = response.data.name
+    console.log('signIn thunk', name)
+    localStorage.setItem('token', token)
+    localStorage.setItem('userID', userID)
+    localStorage.setItem('profilePic', profilePic)
+    localStorage.setItem('name', name)
+    return { token, userID, profilePic, name }
 })
 
 export const checkToken = createAsyncThunk(CHECK_TOKEN, async (params, thunkAPI) => {
@@ -61,9 +68,6 @@ export const checkToken = createAsyncThunk(CHECK_TOKEN, async (params, thunkAPI)
             }
         })
         console.log('inside checkToken 2', response.data)
-        // localStorage.setItem('userID', response.data.id)
-        // localStorage.setItem('token', response.data.token)
-        // return response.data
         return response.data
     }
     return { isValid: false }
@@ -74,7 +78,12 @@ export const displayFavorite = createAsyncThunk(DISPLAY_FAVORITE, async (params,
     // const userID = localStorage.getItem('userID')
     const userID = localStorage.userID
     console.log('display fave thunk', userID)
-    const token = localStorage.getItem('token')
+    // const token = localStorage.getItem('token')
+    const token = localStorage.token
+    const profilePic = localStorage.profilePic
+    console.log('display fave thunk', profilePic)
+    const name = localStorage.name
+    console.log('display fave thunk', name)
     try {
         const response = await axios.get(`/wines/${userID}`, {
             headers: {
@@ -99,7 +108,6 @@ export const addWine = createAsyncThunk(ADD_WINE, async (params, thunkAPI) => {
     }
 })
 
-
 let authSlice = createSlice({
     name: 'auth',
     initialState,
@@ -113,6 +121,7 @@ let authSlice = createSlice({
             state.token = ""
             state.profilePic = ""
             state.name = ""
+            state.userID = ""
             localStorage.removeItem('token')
         },
 
@@ -142,6 +151,8 @@ let authSlice = createSlice({
             state.name = payload.name
             localStorage.setItem('token', payload)
             localStorage.setItem('userID', payload.userID)
+            localStorage.setItem('profilePic', payload.profilePic)
+            localStorage.setItem('name', payload.name)
         },
         [signUp.rejected]: (state, action) => {
 
@@ -158,10 +169,12 @@ let authSlice = createSlice({
             state.isLoading = false
             state.token = payload.token
             state.userID = payload.userID
-            state.profilePic = payload.profilePic || 'https://cdn-icons-png.flaticon.com/512/1942/1942436.png'
-            state.name = payload.name || 'Welcome!'
+            state.profilePic = payload.profilePic
+            state.name = payload.name
             localStorage.setItem('token', payload.token)
             localStorage.setItem('userID', payload.userID)
+            localStorage.setItem('profilePic', payload.profilePic)
+            localStorage.setItem('name', payload.name)
         },
         [signIn.rejected]: (state, action) => {
 
@@ -177,11 +190,14 @@ let authSlice = createSlice({
             console.log('checkToken.fulfilled payload: ', payload)
             state.isLoading = false
             if (payload.isValid) {
-                // state.token = localStorage.token
                 // state.profilePic = payload.profilePic || 'https://cdn-icons-png.flaticon.com/512/1942/1942436.png'
                 // state.name = payload.name || 'Welcome!'
                 state.token = localStorage.token
                 state.userID = localStorage.userID
+                state.profilePic = localStorage.profilePic
+                state.name = localStorage.name
+                localStorage.setItem('profilePic', payload.profilePic)
+                localStorage.setItem('name', payload.name)
             }
         },
         [checkToken.rejected]: (state, action) => {
