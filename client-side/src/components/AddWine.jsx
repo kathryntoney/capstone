@@ -14,13 +14,6 @@ const StyledModal = styled(Modal)({
     justifyContent: 'center'
 })
 
-// const UserBox = styled(Box)({
-//     display: 'flex',
-//     alignItems: 'center',
-//     gap: '10px',
-//     marginBottom: '20px'
-// })
-
 const AddWine = () => {
     const [open, setOpen] = useState(false)
     const [picture, setPicture] = useState('')
@@ -28,11 +21,11 @@ const AddWine = () => {
     const [notes, setNotes] = useState('')
     const isLoading = useSelector(state => state.isLoading)
     const token = useSelector(state => state.token)
-    // const userID = useSelector(state => state.userID)
-    const userID = localStorage.getItem('userID')
-    console.log('userID', userID)
-    // const state = useSelector(state => state)
-    // console.log('state', state)
+    // const userID = localStorage.getItem('userID')
+    // console.log('userID', userID)
+    const userID = useSelector(state => state.userID)
+    const profilePic = useSelector(state => state.profilePic)
+    const name = useSelector(state => state.name)
     console.log('add wine', userID)
     console.log('addwine ', token)
     const dispatch = useDispatch()
@@ -77,9 +70,9 @@ const AddWine = () => {
                 <Box width={400} height={280} bgcolor="white" p={3} borderRadius={5}>
                     <Typography variant='h6' color='gray' textAlign='center'>Create Post</Typography>
                     <Box>
-                        <Avatar src='https://media.licdn.com/dms/image/D5635AQF5L1U9InOswA/profile-framedphoto-shrink_200_200/0/1680273766602?e=1688677200&v=beta&t=ItAk7-TVMDb0VjWon5r422sFqkWOrdaLJ77REI-wD_w'
+                        <Avatar src={profilePic}
                             sx={{ width: 30, height: 30 }} />
-                        <Typography fontWeight={500} variant='span'>Katie Toney</Typography>
+                        <Typography fontWeight={500} variant='span'>{name}</Typography>
                     </Box>
                     <TextField
                         sx={{ width: '100%' }}

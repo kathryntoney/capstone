@@ -9,16 +9,20 @@ import { checkToken, displayFavorite } from '../components/auth/authSlice'
 const Wines = () => {
     const isLoading = (state => state.isLoading)
     const token = useSelector(state => state.token)
+    // const token = localStorage.getItem('token')
     console.log('wines', token)
     const favoriteList = useSelector(state => state.favorites)
+    // const favoriteList = localStorage.getItem('favoriteList')
     console.log('favorite list: ', favoriteList)
-    // const userID = localStorage.getItem('userID')
     const userID = useSelector(state => state.userID)
-    console.log(userID)
+    // const userID = localStorage.getItem('userID')
+    console.log('userID:', userID)
     const profilePic = useSelector(state => state.profilePic)
+    // const profilePic = localStorage.getItem('profilePic')
+    console.log('profilePic:', profilePic)
     const name = useSelector(state => state.name)
-    // console.log('userID: ', userID)
-    // const endpoint = '/wines' + userID
+    // const name = localStorage.getItem('name')
+    console.log('name:', name)
     const dispatch = useDispatch()
     const navigate = useNavigate()
 
@@ -36,20 +40,14 @@ const Wines = () => {
         fetchData();
     }, [dispatch]);
 
-
     // useEffect(() => {
-    //     console.log('inside useEffect')
-    //     dispatch(checkToken())
-    //     dispatch(displayFavorite())
     //     if (!isLoading && token) {
-    //         console.log('inside if')
-    //         dispatch(displayFavorite())
+    //         localStorage.setItem('token', token)
+    //         localStorage.setItem('userID', userID)
+    //         localStorage.setItem('profilePic', profilePic)
+    //         localStorage.setItem('name', name)
     //     }
-    //     else {
-    //         console.log('inside else')
-    //         dispatch(checkToken())
-    //     }
-    // }, [])
+    // }, [token, userID, profilePic, name])
 
     return (
         <Box flex={4} p={2}>

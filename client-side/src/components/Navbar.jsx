@@ -42,8 +42,10 @@ const UserBox = styled(Box)(({ theme }) => ({
 
 const Navbar = () => {
   const profilePic = useSelector(state => state.profilePic)
+  // const profilePic = localStorage.getItem('profilePic')
   console.log('profilePic: ', profilePic)
-  const name = useSelector(state => state.name)
+  const name = useSelector(state => state.name) 
+  // const name = localStorage.getItem('name')
   console.log('username: ', name)
   const [open, setOpen] = useState(false)
   const navigate = useNavigate()
