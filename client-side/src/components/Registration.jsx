@@ -65,9 +65,9 @@ const Registration = (e) => {
                 <StyledTextField placeholder='username' onChange={(e) => setName(e.target.value)} />
                 <StyledTextField placeholder='email' onChange={(e) => setEmail(e.target.value)} />
                 <StyledTextField placeholder='password' onChange={(e) => setPassword(e.target.value)} />
-                <p>Upload profile picture (optional):</p>
+                <p sx={{color:'#5C374C'}}>Upload profile picture (optional):</p>
                 <input type='file' onChange={(e) => { setImageSelected(e.target.files[0]) }}></input>
-                <Button variant='contained' onClick={handleSubmit}>Submit</Button>
+                <Button variant='contained' sx={{backgroundColor:'#5C374C'}} onClick={handleSubmit}>Submit</Button>
             </Box>
         </>
     )

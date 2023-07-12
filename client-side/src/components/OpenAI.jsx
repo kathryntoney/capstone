@@ -1,8 +1,9 @@
 import { useState, useEffect } from "react"
 import {useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
-import {Box, Typography, Input, Button, Card, CardContent, ButtonGroup  } from '@mui/material'
+import {Box, Typography,  Button, Card, CardContent, ButtonGroup,  TextField, Container } from '@mui/material'
 import {removeDataUri}  from './auth/authSlice';
+import "../assets/css/openAI.css"
 const ariaLabel = { 'aria-label': 'description' };
 const { Configuration, OpenAIApi } = require("openai");
 
@@ -19,9 +20,7 @@ const OpenAI = ({ocr}) => {
   const dispatch = useDispatch()
   const dataUri = useSelector(state=> state.dataUri.dataUri)
 const navigate = useNavigate()
-  const handleNewSearch = () => { 
-    setDish("")
-  }
+  
 
   const handleBack = () => {
     dispatch(removeDataUri())
@@ -40,7 +39,6 @@ const navigate = useNavigate()
         prompt: `Given these wines: ${ocr}. Which 2 would you recommend if I am eating ${dish}?`,
         temperature: 0.7,
         max_tokens: 2000,
-   
         
       });
       
@@ -56,17 +54,37 @@ const navigate = useNavigate()
   };
   return(
     <>
-    <Box>
-        <Typography sx={{marginLeft:"1%"}} variant="h6">What dish would you like to pair?</Typography>
-    <br/>
-   <Input placeholder="Input dish" sx={{marginLeft:"1%"}} inputProps={ariaLabel} onChange={(e)=>setDish(e.target.value)}/>
-    <Button onClick={handleSubmit}  variant='contained' aria-label='outlined primary button group' >submit</Button>
-        </Box>
+    <Container>
+
+    <Card sx={{paddingBottom:"5%", backgroundColor:"#fdd5c1"}}>
+      <Typography sx={{marginLeft:"1%", color:"#5C374C"}} variant="h6">What dish would you like to pair?</Typography>
+      <br/>
+    <TextField
+          id="standard-search"
+          label="Search dish"
+          type="search"
+          size="normal"
+          variant="standard"
+          color="secondary"
+           sx={{marginLeft:"1%", color:"#5C374C"}}
+            inputProps={ariaLabel} 
+            onChange={(e)=>setDish(e.target.value)}
+        />
+   
+    <Button id="button" sx={{backgroundColor:"#5C374C"}} onClick={handleSubmit} size="medium" variant='contained' aria-label='outlined button group' >submit</Button>
+        </Card>
+    </Container>
 
 <br/>
 <br/>
-  <Box>
-    <Card>
+    {
+     (apiResponse)?
+<Container>
+
+      <Box>
+
+  
+    <Card sx={{backgroundColor:"#fdd5c1"}}>
 
       <CardContent>
         <Typography 
@@ -77,9 +95,12 @@ const navigate = useNavigate()
         </Typography>
         <br/>
         <Typography
-         sx={{ fontSize: 16 }} >
+         sx={{ fontSize: 16, fontFamily: 'Nunito', color:"#5C374C"}} >
 
         {apiResponse}
+        <br/>
+      
+        
         </Typography>
       </CardContent>
     </Card>
@@ -87,10 +108,18 @@ const navigate = useNavigate()
   <br/>
   <Box>
     <ButtonGroup>
-      <Button variant='contained' aria-label='outlined primary button group' onClick={handleBack}>Back to Camera</Button>
-      <Button variant='contained' aria-label='outlined primary button group' onClick={handleNewSearch}>New Search</Button>
+      <Button sx={{backgroundColor:"#5C374C" }} variant='contained' aria-label='outlined button group' onClick={handleBack}>Back to Camera</Button>
+     
     </ButtonGroup>
+    <Card sx={{backgroundColor:"#fdd5c1"}}>
+
+    <Typography sx={{color:"#5C374C"}} >
+      <br/>
+      Tip:search as many dishes as you wish while on this page without a new picture.</Typography>
+    </Card>
   </Box>
+    </Container>: <Box></Box>
+    }
 
     </>
   );

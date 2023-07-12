@@ -5,10 +5,8 @@
   
   .react-html5-camera-photo > video {
     object-fit:cover;
-    border: grey;
-    border-style:solid;
-   border-width: 1%;
-   box-shadow: 5px 5px lightgrey;
+   
+   
    margin-top: 2%;
   }
 
@@ -19,7 +17,7 @@
   }
   
   .react-html5-camera-photo > .display-error {
-   object-fit: coer;
+   object-fit: cover;
     margin: 0 auto;
   }
   
