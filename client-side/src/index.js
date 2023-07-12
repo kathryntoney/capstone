@@ -25,49 +25,53 @@ import { createTheme, ThemeProvider } from '@mui/material/styles'
 const theme = createTheme({
   palette: {
     primary: {
-  
-      main:'#5C374C' , //dark purple
+
+      main: '#5C374C', //dark purple
     },
-    secondary:{
-      main:'#FF8C61' //atomic tangerine
+    secondary: {
+      main: '#FF8C61' //atomic tangerine
     },
-    info:{
-      main:'#fdd5c1 ' //light peach
+    info: {
+      main: '#fdd5c1 ' //light peach
     }
-    
+
   },
 });
 const persistConfig = {
   key: 'root',
   storage,
 };
+
 const persistedReducer = persistReducer(persistConfig, authSlice);
 const store = configureStore({
   reducer: persistedReducer,
+  devTools: {
+    shouldSerialize: false
+  }
 });
 const persistor = persistStore(store);
 
 export { store, persistor };
 
 ReactDOM.render(
-<ThemeProvider theme={theme}>
-  <React.StrictMode>
-    <Provider store={store}>
-      <PersistGate loading={null} persistor={persistor}>
-      <Router>
-        <BaseLayout>
-          <Routes>
-            <Route path='/login' element={<Login />} />
-            <Route path='/' element={<RequireAuth><Main /></RequireAuth>} />
-            <Route path='/wines' element={<DisplayWines />} />
-            <Route path='/pairing' element={<Pairing />} />
-            <Route path='/suggestions' element={<MenuReader />} />
-          </Routes>
-        </BaseLayout>
-      </Router>
-      </PersistGate>
-    </Provider>
-  </React.StrictMode>
+  <ThemeProvider theme={theme}>
+    <React.StrictMode>
+      <Provider store={store}>
+        <PersistGate loading={null} persistor={persistor}>
+          <Router>
+            <BaseLayout>
+              <Routes>
+                <Route path='/login' element={<Login />} />
+                <Route path='/' element={<RequireAuth><Main /></RequireAuth>} />
+                <Route path='/wines' element={<DisplayWines />} />
+                <Route path='/pairing' element={<Pairing />} />
+                <Route path='/suggestions' element={<MenuReader />} />
+              </Routes>
+            </BaseLayout>
+          </Router>
+        </PersistGate>
+      </Provider>
+    </React.StrictMode>
   </ThemeProvider>,
   document.getElementById('root')
 );

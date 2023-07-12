@@ -1,34 +1,33 @@
 import React from 'react'
-import { Card, CardHeader, CardMedia, CardContent, Avatar, Typography, IconButton, CardActions, Checkbox } from '@mui/material'
+import { Card, CardMedia, CardContent, Typography, IconButton, CardActions, Checkbox } from '@mui/material'
+import DeleteIcon from '@mui/icons-material/Delete'
 import Favorite from '@mui/icons-material/Favorite'
 import FavoriteBorder from '@mui/icons-material/FavoriteBorder'
-import MoreVert from '@mui/icons-material/MoreVert'
-import Share from '@mui/icons-material/Share'
-import { useSelector, useDispatch } from 'react-redux'
-import { displayFavorite } from './auth/authSlice'
+import { useDispatch } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
+import { deleteFavorite } from './auth/authSlice'
 
-const FaveWineEntry = ({ picture, notes, userID }) => {
+const FaveWineEntry = ({ favorite, userID }) => {
+    const { picture, notes } = favorite
     const dispatch = useDispatch()
-    console.log('Picture:', picture)
-    console.log('Notes:', notes)
+    const navigate = useNavigate()
     console.log('userID: ', userID)
 
-    // const displayFavorite = async () => {
-    //     const formData = new FormData()
-    //     const data = {
-    //         userID,
-    //         picture,
-    //         notes
-    //     }
-    //     console.log('dataset', data)
-    //     dispatch(displayFavorite({ formData: data }))
-    // }
+    const handleRemoveFavorite = (e) => {
+        e.preventDefault()
+        const favoriteID = favorite.id
+        const payload = { favoriteID, userID }
+        console.log('favoriteID: ', favoriteID)
+        dispatch(deleteFavorite(payload))
+        window.location.reload();
+    }
+
 
     let content = null;
     if (userID && userID === localStorage.getItem('userID')) {
         content = (
             <>
-                <Card sx={{ margin: 5, backgroundColor:"#fdd5c1"}}>
+                <Card sx={{ margin: 5, backgroundColor: "#fdd5c1" }} id={favorite.id}>
                     <CardMedia
                         component="img"
                         height="300"
@@ -44,9 +43,9 @@ const FaveWineEntry = ({ picture, notes, userID }) => {
                         <IconButton aria-label="add to favorites">
                             <Checkbox icon={<FavoriteBorder />} checkedIcon={<Favorite sx={{ color: 'primary' }} />} />
                         </IconButton>
-                        {/* <IconButton aria-label="share">
-                            <Share />
-                        </IconButton> */}
+                        <IconButton aria-label="delete">
+                            <DeleteIcon onClick={(e) => handleRemoveFavorite(e)} />
+                        </IconButton>
                     </CardActions>
                 </Card>
             </>

@@ -43,20 +43,20 @@ const AddWine = () => {
     const userID = useSelector(state => state.userID)
     const profilePic = useSelector(state => state.profilePic)
     const name = useSelector(state => state.name)
-    console.log('add wine', userID)
-    console.log('addwine ', token)
+    // console.log('add wine', userID)
+    // console.log('addwine ', token)
     const dispatch = useDispatch()
     const navigate = useNavigate()
 
     const handleSubmit = async (e) => {
         e.preventDefault()
-        console.log(imageSelected)
+        // console.log(imageSelected)
         const formData = new FormData()
         formData.append("file", imageSelected)
         formData.append("folder", 'pocketsomm-wines')
         formData.append("upload_preset", "yhxzftqb")
         const picture = await Axios.post("https://api.cloudinary.com/v1_1/ktprojects/image/upload", formData)
-        console.log(picture.data.url)
+        // console.log(picture.data.url)
         const pictureURL = picture.data.url
         setPicture(pictureURL)
         const data = {
@@ -64,7 +64,7 @@ const AddWine = () => {
             picture: pictureURL,
             notes
         }
-        console.log('dataset: ', data)
+        // console.log('dataset: ', data)
         setOpen(false)
         dispatch(addWine({ formData: data }))
         // navigate('/wines')

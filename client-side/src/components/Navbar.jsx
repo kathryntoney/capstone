@@ -62,11 +62,11 @@ const Navbar = () => {
   }
 
   const handleSignout = () => {
-    dispatch(signOut())
     localStorage.removeItem('token')
     localStorage.removeItem('userID')
     localStorage.removeItem('profilePic')
     localStorage.removeItem('name')
+    dispatch(signOut())
     navigate('/login')
     setOpen(false)
   }
@@ -76,7 +76,7 @@ const Navbar = () => {
   return (
     <AppBar position="sticky">
       <StyledToolbar>
-        <Typography className='navbar-title' variant='span'  sx={{  fontSize: '25px', fontWeight: 'bold', color: '#FAA275', justifyContent: 'center', alignItems: 'center' }}><WineBar />Pocket Somm</Typography>
+        <Typography className='navbar-title' variant='span' sx={{ fontSize: '25px', fontWeight: 'bold', color: '#FAA275', justifyContent: 'center', alignItems: 'center' }}><WineBar />Pocket Somm</Typography>
         <Icons>
           <Badge sx={{ ml: '5px' }}>
             <Avatar onClick={e => setOpen(true)} src={profilePic || ""} />

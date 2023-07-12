@@ -156,6 +156,23 @@ router.post('/addwine', async (req, res) => {
     }
 })
 
+router.delete('/favorites/:favoriteID', async (req, res) => {
+    console.log('inside delete favorite', req.params)
+    const { favoriteID } = req.params
+    console.log('favorite id: ', favoriteID)
+    // console.log('user id: ', userID)
+    try {
+        await db.favorites.destroy({ where: { id: favoriteID } })
+        // const updatedFavorites = await db.favorites.findAll({ where: { userID: userID } })
+        res.status(200)
+        // let deleteFavorite = await db.favorites.destroy({ where: { id: favoriteID } })
+        // res.sendStatus(200)
+    } catch (error) {
+        console.log('error deleting favorite', error)
+        throw error
+    }
+
+})
 
 // login api endpoint
 module.exports = router;
