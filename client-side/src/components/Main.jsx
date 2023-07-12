@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react'
 import { Box, Typography, Button, Card } from '@mui/material'
 import { styled } from '@mui/material/styles'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
-import { setUserID } from './auth/authSlice'
+import { setUserID, setNavbar } from './auth/authSlice'
 import { createTheme, ThemeProvider } from '@mui/material/styles'
 
 
@@ -43,25 +43,25 @@ const StyledButton = styled(Button)({
 
 const Main = () => {
     const dispatch = useDispatch()
-    const isLoading = (state => state.isLoading)
-    // const token = (state => state.token)
-    const token = localStorage.token
-    const userID = localStorage.getItem('userID')
-    const profilePic = localStorage.getItem('profilePic')
-    const name = localStorage.getItem('name')
+    const isLoading = useSelector(state => state.isLoading)
+    const token = useSelector(state => state.token)
+    const userID = useSelector(state => state.userID)
+    const profilePic = useSelector(state => state.profilePic)
+    const name = useSelector(state => state.name)
+    console.log('state:', useSelector(state => state))
+    console.log(userID, profilePic, name)
     console.log('main', userID)
     const navigate = useNavigate()
     console.log('main', token)
 
     useEffect(() => {
         if (!isLoading && token) {
-            let token = localStorage.token
-            let userID = localStorage.userID
-            let profilePic = localStorage.profilePic
-            let name = localStorage.name
-            dispatch(setUserID(userID))
+            localStorage.setItem('token', token)
+            localStorage.setItem('userID', userID)
+            localStorage.setItem('profilePic', profilePic)
+            localStorage.setItem('name', name)
         }
-    }, [])
+    }, [token, userID, profilePic, name])
 
     return (
         <>
