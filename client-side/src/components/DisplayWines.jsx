@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import AddWine from './AddWine'
 import FaveWineEntry from './FaveWineEntry'
 import { useNavigate } from 'react-router-dom'
+import { checkToken, displayFavorite } from '../components/auth/authSlice'
 
 const Wines = () => {
     const isLoading = (state => state.isLoading)
@@ -11,16 +12,44 @@ const Wines = () => {
     console.log('wines', token)
     const favoriteList = useSelector(state => state.favorites)
     console.log('favorite list: ', favoriteList)
-    const userID = localStorage.getItem('userID')
-    console.log('userID: ', userID)
+    // const userID = localStorage.getItem('userID')
+    const userID = useSelector(state => state.userID)
+    console.log(userID)
+    const profilePic = useSelector(state => state.profilePic)
+    const name = useSelector(state => state.name)
+    // console.log('userID: ', userID)
+    // const endpoint = '/wines' + userID
     const dispatch = useDispatch()
     const navigate = useNavigate()
 
     useEffect(() => {
-        if (!isLoading && token) {
-            navigate('/wines')
-        }
-    }, [token, isLoading])
+        const fetchData = async () => {
+            try {
+                await dispatch(checkToken());
+                console.log('inside fetch data', userID)
+                await dispatch(displayFavorite(userID, profilePic, name));
+            } catch (error) {
+                console.log("couldn't fetch data")
+            }
+        };
+
+        fetchData();
+    }, [dispatch]);
+
+
+    // useEffect(() => {
+    //     console.log('inside useEffect')
+    //     dispatch(checkToken())
+    //     dispatch(displayFavorite())
+    //     if (!isLoading && token) {
+    //         console.log('inside if')
+    //         dispatch(displayFavorite())
+    //     }
+    //     else {
+    //         console.log('inside else')
+    //         dispatch(checkToken())
+    //     }
+    // }, [])
 
     return (
         <Box flex={4} p={2}>
@@ -32,7 +61,6 @@ const Wines = () => {
                     userID={userID}
                 />
             ))}
-            {/* <FaveWineEntry /> */}
             <AddWine />
         </Box>
     )
