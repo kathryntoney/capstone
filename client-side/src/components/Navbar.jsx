@@ -1,12 +1,32 @@
 import '../index.css';
+import '../assets/css/navBar.css'
 import React, { useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
-import { AppBar, Toolbar, Typography, Box, Avatar, Badge, Menu, MenuItem } from '@mui/material'
+import { AppBar, Toolbar, Typography, Box, Avatar, Badge, Menu, MenuItem, MenuList} from '@mui/material'
 import { styled } from '@mui/material/styles'
 import WineBar from '@mui/icons-material/WineBar';
 
 import { signOut } from './auth/authSlice';
+
+import { createTheme, ThemeProvider } from '@mui/material/styles'
+
+
+const theme = createTheme({
+  palette: {
+    primary: {
+
+      main: '#5C374C', //dark purple
+    },
+    secondary: {
+      main: '#FF8C61' //atomic tangerine
+    },
+    info: {
+      main: '#fdd5c1 ' //light peach
+    }
+
+  },
+});
 
 const StyledToolbar = styled(Toolbar)({
   display: "flex",
@@ -17,7 +37,7 @@ const StyledToolbar = styled(Toolbar)({
 })
 
 const Search = styled("div")(({ theme }) => ({
-  backgroundColor: "white",
+  backgroundColor: "#fdd5c1",
   padding: "0 10px",
   borderRadius: theme.shape.borderRadius,
   width: "40%"
@@ -32,6 +52,7 @@ const Icons = styled(Box)(({ theme }) => ({
 }))
 
 const UserBox = styled(Box)(({ theme }) => ({
+ 
   display: 'flex',
   alignItems: 'center',
   gap: '10px',
@@ -74,7 +95,10 @@ const Navbar = () => {
 
 
   return (
-    <AppBar position="sticky">
+    <ThemeProvider theme={theme}>
+
+    
+    <AppBar position="sticky" >
       <StyledToolbar>
         <Typography className='navbar-title' variant='span' sx={{ fontSize: '25px', fontWeight: 'bold', color: '#FAA275', justifyContent: 'center', alignItems: 'center' }}><WineBar />Pocket Somm</Typography>
         <Icons>
@@ -88,24 +112,31 @@ const Navbar = () => {
         </UserBox>
       </StyledToolbar>
       <Menu
+   
         id='demo-positioned-menu'
         aria-labelledby='demo-positioned-button'
         open={open}
         onClose={e => setOpen(false)}
         anchorOrigin={{
           vertical: 'top',
-          horizontal: 'right'
+          horizontal: 'right',
+      
         }}
         transformOrigin={{
           vertical: 'top',
           horizontal: 'right'
         }}
+        
       >
-        <MenuItem onClick={handlePairing} >Pairing</MenuItem>
-        <MenuItem onClick={handleWines} >My Wines</MenuItem>
-        <MenuItem onClick={handleSignout} >Logout</MenuItem>
+       
+
+        <MenuItem  onClick={handlePairing} >Pairing</MenuItem>
+        <MenuItem  onClick={handleWines} >My Wines</MenuItem>
+        <MenuItem  onClick={handleSignout} >Logout</MenuItem>
+      
       </Menu>
     </AppBar>
+    </ThemeProvider>
   )
 }
 

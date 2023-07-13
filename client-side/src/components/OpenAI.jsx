@@ -83,7 +83,7 @@ const navigate = useNavigate()
           type="search"
           size="normal"
           variant="standard"
-          color="primary"
+          color="#5C374C"
           
            sx={{marginLeft:"1%", color:"#5C374C"}}
             inputProps={ariaLabel} 
@@ -116,7 +116,7 @@ const navigate = useNavigate()
       <CardContent>
         <Typography 
         variant="h4"
-        sx={{mb: "2.5"}}>
+        sx={{mb: "2.5", color:"#5C374C"}}>
           Pairing Suggestions
 
         </Typography>
