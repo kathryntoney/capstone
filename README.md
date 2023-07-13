@@ -6,13 +6,13 @@
 
 
 ## About The Project
-This project was a capstone project for a full-stack development program. Pocket Somm is a responsive application that allows a user to save wines they enjoyed as well as scan a wine menu and ask for a pairing with an entree. There is a camera, Optical Character Recognition and OpenAi to support these goals as well as a PostgreSQL database to store user information and favorites. The idea came out of the experience of the creators. One of the creator's partners is a sommelier and was great to have around at dinner time when it was time to order. The creators decided to find a way to bring that expertise to anyone new or who felt unknowledgeable about the wine choices available at any given restaurant. 
+This project was a capstone project for a full-stack development program. Pocket Somm is a responsive application that allows a user to save wines they enjoyed as well as scan a wine menu and ask for a pairing with an entree. There is a camera, Optical Character Recognition and OpenAI to support these goals as well as a PostgreSQL database to store user information and favorites. The idea came out of the experience of the creators. One of the creator's partners is a sommelier and was great to have around at dinner time when it was time to order. The creators decided to find a way to bring that expertise to anyone new or who felt unknowledgeable about the wine choices available at any given restaurant. 
 
 ## Built With
 * React
 * PostgreSQL
 * Cloudinary
-* OpenAi
+* OpenAI
 * MaterialUI
 * React-Camera
 * Tesseract (OCR)
@@ -30,7 +30,7 @@ You will be directed to the login screen. Once logged in you will choose to view
 ![pocketSommapp3](https://github.com/kathryntoney/capstone/assets/126027193/ba65a8ec-5be4-4a53-957c-bcb8a9e294e6)
 
 
-Once the pisture is taken, you will be able to choose to keep it or retake. If you choose to keep, Optical Character Recognition will pickup the words from your meny and you will be navigated to the paring suggestions page where you will enter your meal to pair. Once submitted you will recieve your suggestons based on your wine menu.
+Once the picture is taken, you will be able to choose to keep it or retake. If you choose to keep, Optical Character Recognition will pickup the words from your menu and you will be navigated to the pairing suggestions page where you will enter your meal to pair. Once submitted you will recieve your suggestons based on your wine menu.
 
 ![pocketSommapp4](https://github.com/kathryntoney/capstone/assets/126027193/a3d19423-8aea-4933-9ce0-60ec193a828b)
 
