@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Box } from '@mui/material'
+import { Box, Typography, Card } from '@mui/material'
 import { useSelector, useDispatch } from 'react-redux'
 import AddWine from './AddWine'
 import FaveWineEntry from './FaveWineEntry'
@@ -33,7 +33,27 @@ const Wines = () => {
 
     return (
         <Box flex={4} p={2}>
-            {Array.isArray(favoriteList) ? (
+            {favoriteList.length > 0 ? (
+                favoriteList.map((favorite) => (
+                    <FaveWineEntry
+                        key={favorite.id}
+                        picture={favorite.picture}
+                        notes={favorite.notes}
+                        userID={userID}
+                        favorite={favorite}
+                    />
+                ))
+            ) : (
+                <Card sx={{ backgroundColor: "#fdd5c1", marginTop: "20%" }}>
+                    <Typography variant="h5" sx={{ fontFamily: "", display: 'flex', justifyContent: 'center', color: "#5C374C", textAlign: 'center' }}>
+                        Use the button below to begin adding favorites!
+                    </Typography>
+                </Card>
+
+
+
+            )}
+            {/* {Array.isArray(favoriteList) ? (
                 favoriteList.map((favorite) => (
                     <FaveWineEntry
                         key={favorite.id}
@@ -45,7 +65,7 @@ const Wines = () => {
                 ))
             ) : (
                 <p>Use the button below to start adding favorites!</p>
-            )}
+            )} */}
             {/* {favoriteList.map(favorite => (
                 <FaveWineEntry
                     key={favorite.id}

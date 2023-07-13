@@ -27,7 +27,7 @@ const FaveWineEntry = ({ favorite, userID }) => {
     if (userID && userID === localStorage.getItem('userID')) {
         content = (
             <>
-                <Card sx={{ margin: 5, backgroundColor: "#fdd5c1" }} id={favorite.id}>
+                <Card sx={{ margin: 5, backgroundColor: "#fdd5c1", height: { xs: "300", sm: "60%" } }} id={favorite.id}>
                     <CardMedia
                         component="img"
                         height="300"
@@ -40,9 +40,9 @@ const FaveWineEntry = ({ favorite, userID }) => {
                         </Typography>
                     </CardContent>
                     <CardActions disableSpacing>
-                        <IconButton aria-label="add to favorites">
+                        {/* <IconButton aria-label="add to favorites">
                             <Checkbox icon={<FavoriteBorder />} checkedIcon={<Favorite sx={{ color: 'primary' }} />} />
-                        </IconButton>
+                        </IconButton> */}
                         <IconButton aria-label="delete">
                             <DeleteIcon onClick={(e) => handleRemoveFavorite(e)} />
                         </IconButton>
