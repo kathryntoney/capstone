@@ -49,7 +49,7 @@ const Registration = (e) => {
             password,
             profilePic: profilePicUrl
         }
-        dispatch(signUp({formData: data}))
+        dispatch(signUp({ formData: data }))
         navigate('/')
     }
 
@@ -63,11 +63,11 @@ const Registration = (e) => {
         <>
             <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                 <StyledTextField placeholder='username' onChange={(e) => setName(e.target.value)} />
-                <StyledTextField placeholder='email' onChange={(e) => setEmail(e.target.value)} />
-                <StyledTextField placeholder='password' onChange={(e) => setPassword(e.target.value)} />
-                <p sx={{color:'#5C374C'}}>Upload profile picture (optional):</p>
+                <StyledTextField type='email' placeholder='email' onChange={(e) => setEmail(e.target.value)} />
+                <StyledTextField type='password' placeholder='password' onChange={(e) => setPassword(e.target.value)} />
+                <p sx={{ color: '#5C374C' }}>Upload profile picture (optional):</p>
                 <input type='file' onChange={(e) => { setImageSelected(e.target.files[0]) }}></input>
-                <Button variant='contained' sx={{backgroundColor:'#5C374C'}} onClick={handleSubmit}>Submit</Button>
+                <Button variant='contained' sx={{ backgroundColor: '#5C374C', marginTop: '5px' }} onClick={handleSubmit}>Submit</Button>
             </Box>
         </>
     )

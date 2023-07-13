@@ -14,21 +14,21 @@ import { signOut } from './auth/authSlice';
 import { createTheme, ThemeProvider } from '@mui/material/styles'
 
 
-const theme = createTheme({
-  palette: {
-    primary: {
+// const theme = createTheme({
+//   palette: {
+//     primary: {
 
-      main: '#5C374C', //dark purple
-    },
-    secondary: {
-      main: '#FF8C61' //atomic tangerine
-    },
-    info: {
-      main: '#fdd5c1 ' //light peach
-    }
+//       main: '#5C374C', //dark purple
+//     },
+//     secondary: {
+//       main: '#FF8C61' //atomic tangerine
+//     },
+//     info: {
+//       main: '#fdd5c1 ' //light peach
+//     }
 
-  },
-});
+//   },
+// });
 
 const StyledToolbar = styled(Toolbar)({
   display: "flex",
@@ -54,7 +54,7 @@ const Icons = styled(Box)(({ theme }) => ({
 }))
 
 const UserBox = styled(Box)(({ theme }) => ({
- 
+
   display: 'flex',
   alignItems: 'center',
   gap: '10px',
@@ -62,6 +62,13 @@ const UserBox = styled(Box)(({ theme }) => ({
     display: 'none'
   }
 }))
+
+const StyledMenu = styled(Menu)({
+  "& .MuiPaper-root": {
+    backgroundColor: "#fdd5c1" // Replace 'your-color' with the desired background color
+  }
+})
+
 
 const Navbar = () => {
   const profilePic = useSelector(state => state.profilePic)
@@ -97,9 +104,7 @@ const Navbar = () => {
 
 
   return (
-    <ThemeProvider theme={theme}>
 
-    
     <AppBar position="sticky" >
       <StyledToolbar>
         <Link href='/'>
@@ -115,8 +120,8 @@ const Navbar = () => {
           <Typography sx={{ display: { xs: "none", sm: "block" } }} variant="span">{name || ""}</Typography>
         </UserBox>
       </StyledToolbar>
-      <Menu
-   
+      <StyledMenu
+
         id='demo-positioned-menu'
         aria-labelledby='demo-positioned-button'
         open={open}
@@ -124,23 +129,23 @@ const Navbar = () => {
         anchorOrigin={{
           vertical: 'top',
           horizontal: 'right',
-      
+
         }}
         transformOrigin={{
           vertical: 'top',
           horizontal: 'right'
         }}
-        
-      >
-       
 
-        <MenuItem  onClick={handlePairing} >Pairing</MenuItem>
-        <MenuItem  onClick={handleWines} >My Wines</MenuItem>
-        <MenuItem  onClick={handleSignout} >Logout</MenuItem>
-      
-      </Menu>
+      >
+
+
+
+        <MenuItem sx={{ color: '#5C374C' }} onClick={handlePairing} >Pairing</MenuItem>
+        <MenuItem sx={{ color: '#5C374C' }} onClick={handleWines} >My Wines</MenuItem>
+        <MenuItem sx={{ color: '#5C374C' }} onClick={handleSignout} >Logout</MenuItem>
+
+      </StyledMenu>
     </AppBar>
-    </ThemeProvider>
   )
 }
 
