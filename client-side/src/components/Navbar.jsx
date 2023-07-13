@@ -2,7 +2,7 @@ import '../index.css';
 import React, { useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
-import { AppBar, Toolbar, Typography, Box, Avatar, Badge, Menu, MenuItem } from '@mui/material'
+import { AppBar, Toolbar, Typography, Box, Avatar, Badge, Menu, MenuItem, Link } from '@mui/material'
 import { styled } from '@mui/material/styles'
 import WineBar from '@mui/icons-material/WineBar';
 
@@ -76,7 +76,9 @@ const Navbar = () => {
   return (
     <AppBar position="sticky">
       <StyledToolbar>
-        <Typography className='navbar-title' variant='span' sx={{ fontSize: '25px', fontWeight: 'bold', color: '#FAA275', justifyContent: 'center', alignItems: 'center' }}><WineBar />Pocket Somm</Typography>
+        <Link href='/'>
+          <Typography className='navbar-title' variant='span' sx={{ fontSize: '25px', fontWeight: 'bold', color: '#FAA275', justifyContent: 'center', alignItems: 'center' }}><WineBar />Pocket Somm</Typography>
+        </Link>
         <Icons>
           <Badge sx={{ ml: '5px' }}>
             <Avatar onClick={e => setOpen(true)} src={profilePic || ""} />

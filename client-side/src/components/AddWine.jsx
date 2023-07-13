@@ -10,20 +10,20 @@ import { addWine } from './auth/authSlice'
 
 const theme = createTheme({
     palette: {
-      primary: {
-    
-        main:'#5C374C' ,
-      },
-      secondary:{
-        main:'#FF8C61'
-      },
-      info:{
-        main:'#fdd5c1 '
-      }
-      
+        primary: {
+
+            main: '#5C374C',
+        },
+        secondary: {
+            main: '#FF8C61'
+        },
+        info: {
+            main: '#fdd5c1 '
+        }
+
     },
-  });
-  
+});
+
 const StyledModal = styled(Modal)({
     display: 'flex',
     alignItems: "center",
@@ -73,44 +73,44 @@ const AddWine = () => {
 
     return (
         <>
-        <ThemeProvider theme={theme}>
-            <Tooltip onClick={e => setOpen(true)} title='New Post' sx={{ position: 'fixed', bottom: 20, left: { xs: "calc(50% - 25px)", md: 30, color:"#5C374C"} }}>
-                <Fab color='secondary' aria-label='add'>
-                    <AddIcon />
-                </Fab>
-            </Tooltip>
-            <StyledModal
-                open={open}
-                onClose={e => setOpen(false)}
-                aria-labelledby="modal-modal-title"
-                aria-describedby="modal-modal-description"
-                
-            >
-                <Box width={400} height={280} bgcolor="#fdd5c1" p={3} borderRadius={5}>
-                    <Typography variant='h6' color='primary' textAlign='center'>Create Post</Typography>
-                    <Box>
-                        <Avatar src={profilePic}
-                            sx={{ width: 30, height: 30 }} />
-                        <Typography fontWeight={500} variant='span'>{name}</Typography>
-                        
+            <ThemeProvider theme={theme}>
+                <Tooltip onClick={e => setOpen(true)} title='New Post' sx={{ position: 'fixed', bottom: 50, left: { xs: "calc(50% - 25px)", md: 30, color: "#5C374C" } }}>
+                    <Fab color='secondary' aria-label='add'>
+                        <AddIcon />
+                    </Fab>
+                </Tooltip>
+                <StyledModal
+                    open={open}
+                    onClose={e => setOpen(false)}
+                    aria-labelledby="modal-modal-title"
+                    aria-describedby="modal-modal-description"
+
+                >
+                    <Box width={400} height={280} bgcolor="#fdd5c1" p={3} borderRadius={5}>
+                        <Typography variant='h6' color='primary' textAlign='center'>Create Post</Typography>
+                        <Box>
+                            <Avatar src={profilePic}
+                                sx={{ width: 30, height: 30 }} />
+                            <Typography fontWeight={500} variant='span'>{name}</Typography>
+
+                        </Box>
+                        <TextField
+                            sx={{ width: '100%', backgroundColor: "#fdd5c1", padding: "2%" }}
+                            id='standard-multiline-static'
+                            rows={4}
+                            placeholder="Enter notes about your wine here"
+                            variant='standard'
+                            onChange={(e) => setNotes(e.target.value)}
+                        />
+                        <input style={{ padding: "3%" }} type='file' onChange={(e) => { setImageSelected(e.target.files[0]) }}></input>
+
+                        <ButtonGroup variant='contained' aria-label='outlined button group' fullWidth>
+
+                            <Button onClick={handleSubmit}>Submit</Button>
+                            <Button onClick={e => setOpen(false)}>Cancel</Button>
+                        </ButtonGroup>
                     </Box>
-                    <TextField
-                        sx={{ width: '100%',backgroundColor:"#fdd5c1", padding:"2%"  }}
-                        id='standard-multiline-static'
-                        rows={4}
-                        placeholder="Enter notes about your wine here"
-                        variant='standard'
-                        onChange={(e) => setNotes(e.target.value)}
-                    />
-                    <input style={{padding:"3%"}}  type='file' onChange={(e) => { setImageSelected(e.target.files[0]) }}></input>
-                    
-                    <ButtonGroup  variant='contained' aria-label='outlined button group' fullWidth>
-                     
-                        <Button onClick={handleSubmit}>Submit</Button>
-                        <Button onClick={e => setOpen(false)}>Cancel</Button>
-                    </ButtonGroup>
-                </Box>
-            </StyledModal>
+                </StyledModal>
             </ThemeProvider>
         </>
     )
